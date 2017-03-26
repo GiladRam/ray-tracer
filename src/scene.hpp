@@ -15,7 +15,7 @@ class Scene {
 public:
   struct {
     unsigned thread_worker = std::thread::hardware_concurrency();
-    unsigned trace_depth = 10;
+    unsigned trace_depth = 3;
     float trace_bias = 1e-4;
     Color environment_color = Color::GRAY;
   } config;
