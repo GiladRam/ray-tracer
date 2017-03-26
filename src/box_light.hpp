@@ -11,7 +11,7 @@ private:
 public:
   Vector position, size;
 
-  BoxLight(const Color &color, float intensity, const Vector &position, const Vector &size, unsigned sample = 7) : Light(color, intensity) {
+  BoxLight(const Color &color, float intensity, const Vector &position, const Vector &size, unsigned sample = 16) : Light(color, intensity) {
     this->position = position;
     this->size = size;
     for (unsigned i = 0; i < sample; ++i) {
