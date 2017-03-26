@@ -12,6 +12,14 @@
 #include "ray.hpp"
 
 class Scene {
+public:
+  struct {
+    unsigned thread_worker = std::thread::hardware_concurrency();
+    unsigned trace_depth = 10;
+    float trace_bias = 1e-4;
+    Color environment_color = Color::GRAY;
+  } config;
+
 private:
   const Camera* camera;
   std::vector<const Light*> lights;
@@ -19,8 +27,9 @@ private:
   Color* frame;
 
   Color trace(const Ray &ray, float refractive_index = 1, unsigned depth = 0) const {
-    if (depth > num_trace_depth) {
-      return Color::ZERO;
+    auto color = config.environment_color;
+    if (depth > config.trace_depth) {
+      return color;
     }
     float distance = std::numeric_limits<float>::max();
     const Object* object = nullptr;
@@ -43,19 +52,18 @@ private:
       return light->color;
     }
     if (object == nullptr) {
-      return Color::ZERO;
+      return color;
     }
     auto point = ray.source + ray.direction * distance;
     auto normal = object->get_normal(point);
-    auto color = Color::ZERO;
     for (auto &l : lights) {
-      auto illuminate = l->illuminate(point + normal * trace_bias, objects);
+      auto illuminate = l->illuminate(point + normal * config.trace_bias, objects);
       // diffusive shading
       if (object->material.k_diffusive > 0) {
         float dot = std::max(.0f, normal.dot(-illuminate.direction));
         color += object->material.k_diffusive * illuminate.intensity * dot;
       }
-      // specular shading
+      // specular shading (phong's model)
       if (object->material.k_specular > 0) {
         auto reflective_direction = ray.direction.reflect(normal);
         float dot = std::max(.0f, ray.direction.dot(reflective_direction));
@@ -64,24 +72,24 @@ private:
     }
     // reflection
     if (object->material.k_reflective > 0) {
-      float k_diffuse_reflect = 1;
+      float k_diffuse_reflect = 0;
       if (k_diffuse_reflect > 0 && depth < 2) {
-        Vector RP = ray.direction.reflect(normal);
-        Vector RN1 = Vector(RP.z, RP.y, -RP.x);
-        Vector RN2 = RP.det(RN1);
-        Color c(0, 0, 0);
-        for (int i = 0; i < 128; ++i) {
-          float len = randf() * k_diffuse_reflect;
-          float angle = static_cast<float>(randf() * 2 * M_PI);
-          float xoff = len * cosf(angle), yoff = len * sinf(angle);
-          Vector R = (RP + RN1 * xoff + RN2 * yoff * k_diffuse_reflect).normalize();
-          Ray ray_reflect(point + R * trace_bias, R);
-          c += object->material.k_reflective * trace(ray_reflect, refractive_index, depth + 1);
-        }
-        color += c / 128.;
+//        Vector RP = ray.direction.reflect(normal);
+//        Vector RN1 = Vector(RP.z, RP.y, -RP.x);
+//        Vector RN2 = RP.det(RN1);
+//        Color c(0, 0, 0);
+//        for (int i = 0; i < 128; ++i) {
+//          float len = randf() * k_diffuse_reflect;
+//          float angle = static_cast<float>(randf() * 2 * M_PI);
+//          float xoff = len * cosf(angle), yoff = len * sinf(angle);
+//          Vector R = (RP + RN1 * xoff + RN2 * yoff * k_diffuse_reflect).normalize();
+//          Ray ray_reflect(point + R * config.trace_bias, R);
+//          c += object->material.k_reflective * trace(ray_reflect, refractive_index, depth + 1);
+//        }
+//        color += c / 128.;
       } else {
         auto reflective_direction = ray.direction.reflect(normal);
-        auto reflective_ray = Ray(point + reflective_direction * trace_bias, reflective_direction);
+        auto reflective_ray = Ray(point + reflective_direction * config.trace_bias, reflective_direction);
         color += object->material.k_reflective * trace(reflective_ray, refractive_index, depth + 1);
       }
     }
@@ -89,7 +97,7 @@ private:
     if (object->material.k_refractive > 0) {
       auto refractive_direction = ray.direction.refract(normal, refractive_index / object->material.k_refractive_index);
       if (refractive_direction != Vector::ZERO) {
-        auto refractive_ray = Ray(point + refractive_direction * trace_bias, refractive_direction);
+        auto refractive_ray = Ray(point + refractive_direction * config.trace_bias, refractive_direction);
         color += object->material.k_refractive * trace(refractive_ray, object->material.k_refractive_index, depth + 1);
       }
     }
@@ -112,7 +120,7 @@ public:
 
   void render() {
     auto start = std::chrono::high_resolution_clock::now();
-    std::cerr << "start rendering with " << num_thread_worker << " thread workers";
+    std::cerr << "start rendering with " << config.thread_worker << " thread workers";
     moodycamel::ConcurrentQueue<std::pair<int, int> > queue;
     for (int y = 0; y < camera->height; ++y)
       for (int x = 0; x < camera->width; ++x)
@@ -120,7 +128,7 @@ public:
 
     std::atomic<unsigned> counter(0);
     std::vector<std::thread> workers;
-    for (int i = 0; i < num_thread_worker; ++i) {
+    for (int i = 0; i < config.thread_worker; ++i) {
       auto render = [&] {
         for (std::pair<unsigned, unsigned> item; queue.try_dequeue(item); ++counter) {
           auto x = item.first, y = item.second;
@@ -133,7 +141,7 @@ public:
     for (unsigned i; (i = counter.load()) < camera->width * camera->height; ) {
       auto now = std::chrono::high_resolution_clock::now();
       std::cerr << "\rrendered " << i << "/" << camera->width * camera->height
-                << " pixels with " << num_thread_worker << " thread workers"
+                << " pixels with " << config.thread_worker << " thread workers"
                 << " in " << (now - start).count() / 1e9 << " seconds";
       std::this_thread::sleep_for(std::chrono::milliseconds(50));
     }

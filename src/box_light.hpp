@@ -11,12 +11,12 @@ private:
 public:
   Vector position, size;
 
-  BoxLight(const Color &color, float intensity, const Vector &position, const Vector &size) : Light(color, intensity) {
+  BoxLight(const Color &color, float intensity, const Vector &position, const Vector &size, unsigned sample = 16) : Light(color, intensity) {
     this->position = position;
     this->size = size;
-    for (unsigned i = 0; i < num_area_light_sample; ++i) {
-      for (unsigned j = 0; j < num_area_light_sample; ++j) {
-        Vector ratio((i + randf()) / num_area_light_sample, randf(), (j + randf()) / num_area_light_sample);
+    for (unsigned i = 0; i < sample; ++i) {
+      for (unsigned j = 0; j < sample; ++j) {
+        Vector ratio((i + randf()) / sample, randf(), (j + randf()) / sample);
         this->lights.push_back(new PointLight(color, intensity, position + ratio * size));
       }
     }
