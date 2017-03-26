@@ -27,9 +27,8 @@ private:
   Color* frame;
 
   Color trace(const Ray &ray, float refractive_index = 1, unsigned depth = 0) const {
-    auto color = config.environment_color;
     if (depth > config.trace_depth) {
-      return color;
+      return config.environment_color;
     }
     float distance = std::numeric_limits<float>::max();
     const Object* object = nullptr;
@@ -52,8 +51,9 @@ private:
       return light->color;
     }
     if (object == nullptr) {
-      return color;
+      return config.environment_color;
     }
+    auto color = Color::ZERO;
     auto point = ray.source + ray.direction * distance;
     auto normal = object->get_normal(point);
     for (auto &l : lights) {
@@ -101,7 +101,7 @@ private:
         color += object->material.k_refractive * trace(refractive_ray, object->material.k_refractive_index, depth + 1);
       }
     }
-    return color * object->get_color(point);
+    return config.environment_color + color * object->get_color(point);
   }
 
 public:
