@@ -14,8 +14,8 @@
 class Scene {
 public:
   struct {
-    unsigned thread_worker = std::thread::hardware_concurrency();
-    unsigned trace_depth = 3;
+    int thread_worker = std::thread::hardware_concurrency();
+    int trace_depth = 3;
     float trace_bias = 1e-4;
     Color environment_color = Color::GRAY;
   } config;
@@ -26,7 +26,7 @@ private:
   std::vector<const Object*> objects;
   Color* frame;
 
-  Color trace(const Ray &ray, float refractive_index = 1, unsigned depth = 0) const {
+  Color trace(const Ray &ray, float refractive_index = 1, int depth = 0) const {
     if (depth > config.trace_depth) {
       return config.environment_color;
     }
@@ -121,24 +121,23 @@ public:
   void render() {
     auto start = std::chrono::high_resolution_clock::now();
     std::cerr << "start rendering with " << config.thread_worker << " thread workers";
-    moodycamel::ConcurrentQueue<std::pair<int, int> > queue;
-    for (int y = 0; y < camera->height; ++y)
-      for (int x = 0; x < camera->width; ++x)
+    moodycamel::ConcurrentQueue<std::pair<int, int>> queue;
+    for (int y = 0; y < camera->height; ++y) {
+      for (int x = 0; x < camera->width; ++x) {
         queue.enqueue(std::make_pair(x, y));
-
-    std::atomic<unsigned> counter(0);
+      }
+    }
+    std::atomic<int> counter(0);
     std::vector<std::thread> workers;
     for (int i = 0; i < config.thread_worker; ++i) {
-      auto render = [&] {
-        for (std::pair<unsigned, unsigned> item; queue.try_dequeue(item); ++counter) {
+      workers.emplace_back([&] {
+        for (std::pair<int, int> item; queue.try_dequeue(item); ++counter) {
           auto x = item.first, y = item.second;
-          auto ray = camera->ray(x, y);
-          frame[y * camera->width + x] = trace(ray);
+          frame[y * camera->width + x] = trace(camera->ray(x, y));
         }
-      };
-      workers.emplace_back(std::thread(render));
+      });
     }
-    for (unsigned i; (i = counter.load()) < camera->width * camera->height; ) {
+    for (int i; (i = counter.load()) < camera->width * camera->height; ) {
       auto now = std::chrono::high_resolution_clock::now();
       std::cerr << "\rrendered " << i << "/" << camera->width * camera->height
                 << " pixels with " << config.thread_worker << " thread workers"
@@ -155,7 +154,7 @@ public:
   void save(const std::string &path) const {
     std::ofstream ofs(path, std::ios::out | std::ios::binary);
     ofs << "P6\n" << camera->width << " " << camera->height << "\n255\n";
-    for (unsigned i = 0; i < camera->height * camera->width; ++i) {
+    for (int i = 0; i < camera->height * camera->width; ++i) {
       ofs << static_cast<char>(clamp(frame[i].x, 0, 1) * 255)
           << static_cast<char>(clamp(frame[i].y, 0, 1) * 255)
           << static_cast<char>(clamp(frame[i].z, 0, 1) * 255);

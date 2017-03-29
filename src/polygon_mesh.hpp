@@ -8,29 +8,39 @@
 
 class PolygonMesh : public Object {
 private:
+  std::vector<Vector> vertices, normals;
+  std::vector<std::tuple<int, int, int>> faces;
   std::vector<const Triangle*> objects;
 
 public:
-  PolygonMesh(const std::string &path, const Material &material) : Object(material) {
+  PolygonMesh(const std::string &path, float scale, const Material &material) : Object(material) {
     std::ifstream ifs(path, std::ios::in);
     if (path.substr(path.length() - 4) == ".obj") {
-      std::vector<Vector> vertices;
       for (std::string buffer; ifs >> buffer; ) {
         if (buffer == "v") {
           float x, y, z;
           ifs >> x >> y >> z;
           vertices.emplace_back(x, y, z);
         } else if (buffer == "f") {
-          unsigned indices[3];
-          for (unsigned i = 0; i < 3; ++i) {
+          int indices[3];
+          for (int i = 0; i < 3; ++i) {
             ifs >> buffer;
             std::istringstream iss(buffer);
             iss >> indices[i];
             --indices[i];
           }
-          objects.emplace_back(new Triangle(vertices[indices[0]], vertices[indices[1]], vertices[indices[2]], material));
+          faces.emplace_back(indices[0], indices[1], indices[2]);
         }
       }
+    }
+    for (auto &vertex : vertices) {
+      vertex *= scale;
+    }
+    for (auto &face : faces) {
+      int a = std::get<0>(face);
+      int b = std::get<1>(face);
+      int c = std::get<2>(face);
+      objects.emplace_back(new Triangle(vertices[a], vertices[b], vertices[c], material));
     }
   }
 
@@ -49,9 +59,10 @@ public:
     auto normal = Vector::ZERO;
     float minimum = std::numeric_limits<float>::max();
     for (auto &object : objects) {
-      float cos = object->get_normal(position).dot(position - object->pointA);
+      auto face_normal = object->get_normal(position);
+      float cos = face_normal.dot(position - object->pointA);
       if (fabsf(cos) < minimum) {
-        normal = object->get_normal(position);
+        normal = face_normal;
         minimum = fabsf(cos);
       }
     }

@@ -10,13 +10,13 @@ private:
 public:
   Vector position, size;
 
-  BoxLight(const Color &color, float intensity, const Vector &position, const Vector &size, unsigned sample = 16) : Light(color, intensity) {
+  BoxLight(const Color &color, float intensity, const Vector &position, const Vector &size, int sample = 16) : Light(color, intensity) {
     this->position = position;
     this->size = size;
-    for (unsigned i = 0; i < sample; ++i) {
-      for (unsigned j = 0; j < sample; ++j) {
+    for (int i = 0; i < sample; ++i) {
+      for (int j = 0; j < sample; ++j) {
         auto ratio = Vector((i + randf()) / sample, randf(), (j + randf()) / sample);
-        this->lights.emplace_back(new PointLight(color, intensity, position + ratio * size));
+        lights.emplace_back(new PointLight(color, intensity, position + ratio * size));
       }
     }
   }
@@ -33,7 +33,7 @@ public:
       d.z ? (p2.z - o.z) / d.z : 0
     };
     float distance = std::numeric_limits<float>::max();
-    for (unsigned i = 0; i < 6; ++i) {
+    for (int i = 0; i < 6; ++i) {
       if (distances[i] == 0) {
         continue;
       }
