@@ -1,7 +1,7 @@
 #pragma once
 
 #include "object.hpp"
-#include "../ray.hpp"
+#include "../libraries/ray.hpp"
 
 class Triangle : public Object {
 private:

@@ -2,7 +2,7 @@
 
 #include <vector>
 #include "vector.hpp"
-#include "objects/object.hpp"
+#include "../objects/object.hpp"
 
 class Ray {
 public:

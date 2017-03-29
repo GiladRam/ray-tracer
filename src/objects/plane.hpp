@@ -1,10 +1,10 @@
 #pragma once
 
 #include <cmath>
-#include "../vector.hpp"
+#include "../libraries/vector.hpp"
 #include "object.hpp"
-#include "../utility.hpp"
-#include "../ray.hpp"
+#include "../libraries/utility.hpp"
+#include "../libraries/ray.hpp"
 
 class Plane : public Object {
 public:

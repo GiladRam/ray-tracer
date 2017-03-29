@@ -5,8 +5,8 @@
 #include <iostream>
 #include "concurrentqueue.h"
 #include "camera.hpp"
-#include "lights/light.hpp"
-#include "objects/object.hpp"
+#include "../lights/light.hpp"
+#include "../objects/object.hpp"
 #include "color.hpp"
 #include "utility.hpp"
 #include "ray.hpp"

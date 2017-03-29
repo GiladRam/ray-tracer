@@ -2,7 +2,7 @@
 
 #include <cmath>
 #include "object.hpp"
-#include "../ray.hpp"
+#include "../libraries/ray.hpp"
 
 class Sphere : public Object {
 public:

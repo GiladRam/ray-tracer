@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../color.hpp"
-#include "../ray.hpp"
+#include "../libraries/color.hpp"
+#include "../libraries/ray.hpp"
 
 class Light {
 public:
