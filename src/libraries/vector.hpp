@@ -90,6 +90,14 @@ public:
     return Vector(-x, -y, -z);
   }
 
+  const float& operator [] (int i) const {
+    return (&x)[i];
+  }
+
+  float& operator [] (int i) {
+    return (&x)[i];
+  }
+
   bool operator == (const Vector &v) {
     return x == v.x && y == v.y && z == v.z;
   }

@@ -2,18 +2,17 @@
 
 #include <vector>
 #include <fstream>
-#include <sstream>
 #include "object.hpp"
 #include "triangle.hpp"
 
 class PolygonMesh : public Object {
 private:
   std::vector<Vector> vertices, normals;
-  std::vector<std::tuple<int, int, int>> faces;
+  std::vector<std::vector<int>> faces;
   std::vector<const Triangle*> objects;
 
 public:
-  PolygonMesh(const std::string &path, float scale, const Vector &delta, const Material &material) : Object(material) {
+  PolygonMesh(const std::string &path, const Vector &position, float size, const Material &material) : Object(material) {
     std::ifstream ifs(path, std::ios::in);
     if (path.substr(path.length() - 4) == ".obj") {
       for (std::string buffer; ifs >> buffer; ) {
@@ -22,43 +21,54 @@ public:
           ifs >> x >> y >> z;
           vertices.emplace_back(x, y, z);
         } else if (buffer == "f") {
-          int indices[3];
+          faces.emplace_back(std::vector<int>(3, 0));
           for (auto i = 0; i < 3; ++i) {
-            ifs >> buffer;
-            std::istringstream iss(buffer);
-            iss >> indices[i];
-            --indices[i];
+            ifs >> faces.back()[i];
+            faces.back()[i]--;
           }
-          faces.emplace_back(indices[0], indices[1], indices[2]);
         }
       }
     }
+    // transformation
+    auto center = Vector::ZERO;
+    auto minimum = vertices.front(), maximum = vertices.front();
     for (auto &vertex : vertices) {
-      vertex = vertex * scale + delta;
+      center += vertex / vertices.size();
+      for (auto i = 0; i < 3; ++i) {
+        if (vertex[i] < minimum[i]) {
+          minimum[i] = vertex[i];
+        }
+        if (vertex[i] > maximum[i]) {
+          maximum[i] = vertex[i];
+        }
+      }
+    }
+    auto scale = std::numeric_limits<float>::max();
+    for (auto i = 0; i < 3; ++i) {
+      auto ratio = size / (maximum[i] - minimum[i]);
+      if (ratio < scale) {
+        scale = ratio;
+      }
+    }
+    for (auto &vertex : vertices) {
+      vertex = (vertex - center) * scale + position;
     }
     for (auto &face : faces) {
-      auto a = std::get<0>(face);
-      auto b = std::get<1>(face);
-      auto c = std::get<2>(face);
-      objects.emplace_back(new Triangle(vertices[a], vertices[b], vertices[c], material));
+      objects.emplace_back(new Triangle(vertices[face[0]], vertices[face[1]], vertices[face[2]], material));
     }
-    if (faces.size() > 30) {
-      // mesh smoothing
-      auto count = std::vector<int>(vertices.size(), 0);
+    // mesh smoothing
+    if (faces.size() > 32) {
       normals = std::vector<Vector>(vertices.size(), Vector::ZERO);
+      auto counts = std::vector<int>(vertices.size(), 0);
       for (auto i = 0; i < faces.size(); ++i) {
-        auto a = std::get<0>(faces[i]);
-        auto b = std::get<1>(faces[i]);
-        auto c = std::get<2>(faces[i]);
-        normals[a] += objects[i]->get_normal(Vector::ZERO, Ray(Vector::ZERO, Vector::ZERO));
-        normals[b] += objects[i]->get_normal(Vector::ZERO, Ray(Vector::ZERO, Vector::ZERO));
-        normals[c] += objects[i]->get_normal(Vector::ZERO, Ray(Vector::ZERO, Vector::ZERO));
-        count[a]++;
-        count[b]++;
-        count[c]++;
+        for (auto j = 0; j < 3; ++j) {
+          auto x = faces[i][j];
+          normals[x] += objects[i]->normal;
+          counts[x]++;
+        }
       }
       for (auto i = 0; i < vertices.size(); ++i) {
-        normals[i] /= count[i];
+        normals[i] /= counts[i];
       }
     }
   }
@@ -75,29 +85,26 @@ public:
   }
 
   Vector get_normal(const Vector &position, const Ray &ray) const {
+    auto index = 0;
     auto distance = std::numeric_limits<float>::max();
-    auto i = 0;
-    for (auto j = 0; j < faces.size(); ++j) {
-      auto face_normal = objects[j]->get_normal(position, ray);
-      auto length = objects[j]->intersect(ray);
+    for (auto i = 0; i < faces.size(); ++i) {
+      auto length = objects[i]->intersect(ray);
       if (length < distance) {
         distance = length;
-        i = j;
+        index = i;
       }
     }
-    if (!normals.empty()) {
-      auto vectorP = ray.direction.det(objects[i]->pointC - objects[i]->pointA);
-      auto det = vectorP.dot(objects[i]->pointB - objects[i]->pointA);
-      auto vectorT = ray.source - objects[i]->pointA;
-      auto u = vectorT.dot(vectorP) / det;
-      auto vectorQ = vectorT.det(objects[i]->pointB - objects[i]->pointA);
-      auto v = ray.direction.dot(vectorQ) / det;
-      auto a = std::get<0>(faces[i]);
-      auto b = std::get<1>(faces[i]);
-      auto c = std::get<2>(faces[i]);
-      return ((1 - u - v) * normals[a] + u * normals[b] + v * normals[c]).normalize();
-    } else {
-      return objects[i]->get_normal(position, ray);
+    auto face = faces[index];
+    auto object = objects[index];
+    if (normals.empty()) {
+      return object->normal;
     }
+    auto vectorP = ray.direction.det(object->pointC - object->pointA);
+    auto vectorT = ray.source - object->pointA;
+    auto vectorQ = vectorT.det(object->pointB - object->pointA);
+    auto det = vectorP.dot(object->pointB - object->pointA);
+    auto u = vectorT.dot(vectorP) / det;
+    auto v = ray.direction.dot(vectorQ) / det;
+    return (1 - u - v) * normals[face[0]] + u * normals[face[1]] + v * normals[face[2]];
   }
 };

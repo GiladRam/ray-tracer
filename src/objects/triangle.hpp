@@ -4,6 +4,8 @@
 #include "../libraries/ray.hpp"
 
 class Triangle : public Object {
+friend class PolygonMesh;
+
 private:
   Vector normal;
 

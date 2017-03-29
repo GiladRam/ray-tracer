@@ -61,7 +61,7 @@ void scene2(const Camera* camera) {
   ));
   // teapot
   scene.add(new PolygonMesh(
-    "../models/teapot.obj", 4, Vector(0, 0, -15),
+    "../models/teapot.obj", Vector(0, 10, -10), 20,
     Material(Color::WHITE, 1, 0, 0, 0, 0, 0)
   ));
   scene.render();
