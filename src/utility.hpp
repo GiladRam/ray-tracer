@@ -3,7 +3,7 @@
 #include <cstdlib>
 #include <algorithm>
 
-const float numeric_eps = 1e-6;
+const float numeric_eps = 1e-8;
 
 inline float randf() {
   return rand() / static_cast<float>(RAND_MAX);

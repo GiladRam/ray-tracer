@@ -137,4 +137,4 @@ public:
   }
 };
 
-const Vector Vector::ZERO = Vector(0, 0, 0);
+const auto Vector::ZERO = Vector(0, 0, 0);

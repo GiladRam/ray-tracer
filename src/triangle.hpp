@@ -18,17 +18,17 @@ public:
   }
 
   float intersect(const Ray &ray) const {
-    Vector vectorP = ray.direction.det(pointC - pointA);
+    auto vectorP = ray.direction.det(pointC - pointA);
     float det = vectorP.dot(pointB - pointA);
     if (fabsf(det) < numeric_eps) {
       return std::numeric_limits<float>::max();
     }
-    Vector vectorT = ray.source - pointA;
+    auto vectorT = ray.source - pointA;
     float u = vectorT.dot(vectorP) / det;
     if (u < -numeric_eps || u > 1 + numeric_eps) {
       return std::numeric_limits<float>::max();
     }
-    Vector vectorQ = vectorT.det(pointB - pointA);
+    auto vectorQ = vectorT.det(pointB - pointA);
     float v = ray.direction.dot(vectorQ) / det;
     if (v < -numeric_eps || u + v > 1 + numeric_eps) {
       return std::numeric_limits<float>::max();

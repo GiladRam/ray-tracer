@@ -19,9 +19,9 @@ public:
   }
 };
 
-const Color Color::ZERO = Color(0, 0, 0);
-const Color Color::BLUE = Color(.65, .77, .97);
-const Color Color::GRAY = Color(.1, .1, .1);
-const Color Color::RED = Color(1, .32, .36);
-const Color Color::YELLOW = Color(.9, .72, .46);
-const Color Color::WHITE = Color(1, 1, 1);
+const auto Color::ZERO = Color(0, 0, 0);
+const auto Color::BLUE = Color(.65, .77, .97);
+const auto Color::GRAY = Color(.1, .1, .1);
+const auto Color::RED = Color(1, .32, .36);
+const auto Color::YELLOW = Color(.9, .72, .46);
+const auto Color::WHITE = Color(1, 1, 1);

@@ -2,11 +2,10 @@
 
 #include "light.hpp"
 #include "point_light.hpp"
-#include "utility.hpp"
 
 class BoxLight : public Light {
 private:
-  std::vector<const Light*> lights;
+  std::vector<const PointLight*> lights;
 
 public:
   Vector position, size;
@@ -16,15 +15,15 @@ public:
     this->size = size;
     for (unsigned i = 0; i < sample; ++i) {
       for (unsigned j = 0; j < sample; ++j) {
-        Vector ratio((i + randf()) / sample, randf(), (j + randf()) / sample);
+        auto ratio = Vector((i + randf()) / sample, randf(), (j + randf()) / sample);
         this->lights.emplace_back(new PointLight(color, intensity, position + ratio * size));
       }
     }
   }
 
   float intersect(const Ray &ray) const {
-    Vector d = ray.direction, o = ray.source;
-    Vector p1 = position, p2 = position + size;
+    auto d = ray.direction, o = ray.source;
+    auto p1 = position, p2 = position + size;
     float distances[] = {
       d.x ? (p1.x - o.x) / d.x : 0,
       d.x ? (p2.x - o.x) / d.x : 0,
@@ -38,7 +37,7 @@ public:
       if (distances[i] == 0) {
         continue;
       }
-      Vector p = o + distances[i] * d;
+      auto p = o + distances[i] * d;
       if (p.x < p1.x - numeric_eps || p.x > p2.x + numeric_eps) {
         continue;
       }
