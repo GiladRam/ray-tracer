@@ -130,6 +130,7 @@ public:
     }
     std::vector<std::thread> workers;
     std::atomic<int> count(0);
+    srand((unsigned)time(nullptr));
     for (auto i = 0; i < config.thread_worker; ++i) {
       workers.emplace_back([&] {
         for (std::pair<int, int> item; queue.try_dequeue(item); ++count) {

@@ -12,7 +12,7 @@ private:
 public:
   int width, height, field;
 
-  Camera(const Vector &position = Vector::ZERO, int width = 2400, int height = 1800, int field = 45) {
+  Camera(const Vector &position, int width, int height, int field) {
     this->position = position;
     this->width = width;
     this->height = height;

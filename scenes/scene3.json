@@ -1,0 +1,46 @@
+{
+  "camera" : {
+    "position" : [0, 10, 40]
+  },
+
+  "lights" : [
+    {
+      "type" : "box_light",
+      "color" : [1, 1, 1],
+      "intensity" : 3000,
+      "position" : [-10, 20, -20],
+      "size" : [20, 0.5, 20]
+    }
+  ],
+
+  "objects" : [
+    {
+      "type" : "plane",
+      "point" : [0, 0, 0],
+      "normal" : [0, 1, 0],
+      "material" : {
+        "color" : [1, 1, 1],
+        "k_diffusive" : 1,
+        "k_diffusive_reflective" : 0.5,
+        "k_specular" : 0.8,
+        "k_reflective" : 0.5,
+        "k_refractive" : 0,
+        "k_refractive_index" : 0
+      }
+    },
+    {
+      "type" : "plane",
+      "point" : [0, 0, -30],
+      "normal" : [0, 0, 1],
+      "material" : {
+        "color" : [1, 0.32, 0.36],
+        "k_diffusive" : 1,
+        "k_diffusive_reflective" : 0.5,
+        "k_specular" : 0.8,
+        "k_reflective" : 0.5,
+        "k_refractive" : 0,
+        "k_refractive_index" : 0
+      }
+    }
+  ]
+}
