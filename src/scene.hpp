@@ -72,21 +72,22 @@ private:
     }
     // reflection
     if (object->material.k_reflective > 0) {
-      float k_diffuse_reflect = 0;
+      float k_diffuse_reflect = 1;
       if (k_diffuse_reflect > 0 && depth < 2) {
-//        Vector RP = ray.direction.reflect(normal);
-//        Vector RN1 = Vector(RP.z, RP.y, -RP.x);
-//        Vector RN2 = RP.det(RN1);
-//        Color c(0, 0, 0);
-//        for (int i = 0; i < 128; ++i) {
-//          float len = randf() * k_diffuse_reflect;
-//          float angle = static_cast<float>(randf() * 2 * M_PI);
-//          float xoff = len * cosf(angle), yoff = len * sinf(angle);
-//          Vector R = (RP + RN1 * xoff + RN2 * yoff * k_diffuse_reflect).normalize();
-//          Ray ray_reflect(point + R * config.trace_bias, R);
-//          c += object->material.k_reflective * trace(ray_reflect, refractive_index, depth + 1);
-//        }
-//        color += c / 128.;
+//        std::cout << "!!!!" << std::endl;
+        Vector RP = ray.direction.reflect(normal);
+        Vector RN1 = Vector(RP.z, RP.y, -RP.x);
+        Vector RN2 = RP.det(RN1);
+        Color c(0, 0, 0);
+        for (int i = 0; i < 32; ++i) {
+          float len = randf() * k_diffuse_reflect;
+          float angle = static_cast<float>(randf() * 2 * M_PI);
+          float xoff = len * cosf(angle), yoff = len * sinf(angle);
+          Vector R = (RP + RN1 * xoff + RN2 * yoff * k_diffuse_reflect).normalize();
+          Ray ray_reflect(point + R * config.trace_bias, R);
+          c += object->material.k_reflective * trace(ray_reflect, refractive_index, depth + 1);
+        }
+        color += c / 32.;
       } else {
         auto reflective_direction = ray.direction.reflect(normal);
         auto reflective_ray = Ray(point + reflective_direction * config.trace_bias, reflective_direction);
