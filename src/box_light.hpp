@@ -35,7 +35,7 @@ public:
     };
     float distance = std::numeric_limits<float>::max();
     for (unsigned i = 0; i < 6; ++i) {
-      if (distances[i] < numeric_eps) {
+      if (distances[i] == 0) {
         continue;
       }
       Vector p = o + distances[i] * d;

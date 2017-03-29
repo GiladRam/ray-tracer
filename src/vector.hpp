@@ -125,7 +125,7 @@ public:
   Vector refract(Vector normal, float index) const {
     float cos = fabsf(dot(normal));
     float k = 1 - index * index * (1 - cos * cos);
-    if (k <= 0) {
+    if (k < numeric_eps) {
       return Vector::ZERO;
     }
     return (index * (*this) + (index * cos - sqrtf(k)) * normal).normalize();

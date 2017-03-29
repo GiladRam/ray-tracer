@@ -21,7 +21,7 @@ public:
       return std::numeric_limits<float>::max();
     }
     float distance = (point - ray.source).dot(normal) / denominator;
-    if (distance >= 0) {
+    if (distance > -numeric_eps) {
       return distance;
     } else {
       return std::numeric_limits<float>::max();
