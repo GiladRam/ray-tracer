@@ -1,6 +1,9 @@
 {
   "camera" : {
-    "position" : [0, 10, 40]
+    "position" : [0, 10, 40],
+    "width" : 2400,
+    "height" : 1800,
+    "field" : 45
   },
 
   "lights" : [
@@ -68,6 +71,20 @@
         "k_reflective" : 0.2,
         "k_refractive" : 0,
         "k_refractive_index" : 0
+      }
+    },
+    {
+      "type" : "sphere",
+      "center" : [0, 5, 5],
+      "radius" : 5,
+      "material" : {
+        "color" : [1, 1, 1],
+        "k_diffusive" : 0,
+        "k_diffusive_reflective" : 0,
+        "k_specular" : 0,
+        "k_reflective" : 0,
+        "k_refractive" : 1,
+        "k_refractive_index" : 1.05
       }
     }
   ]

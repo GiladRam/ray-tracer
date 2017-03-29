@@ -3,13 +3,8 @@
 #include "lights/box_light.hpp"
 #include "objects/plane.hpp"
 #include "objects/sphere.hpp"
-#include "objects/triangle.hpp"
 #include "objects/polygon_mesh.hpp"
 #include "json.hpp"
-
-int width = 400;
-int height = 300;
-int field = 45;
 
 using json = nlohmann::json;
 
@@ -34,7 +29,13 @@ Material parse_material(const json &m) {
 }
 
 Scene parse_scene(const json &s) {
-  auto camera = new Camera(parse_vector(s["camera"]["position"]), width, height, field);
+  auto c = s["camera"];
+  auto camera = new Camera(
+    parse_vector(c["position"]),
+    c["width"],
+    c["height"],
+    c["field"]
+  );
   auto scene = Scene(camera);
   for (auto &l : s["lights"]) {
     if (l["type"] == "box_light") {
@@ -71,16 +72,15 @@ Scene parse_scene(const json &s) {
   return scene;
 }
 
-Scene read_scene(const std::string &path) {
-  std::ifstream ifs(path, std::ios::in);
-  json json;
-  ifs >> json;
-  ifs.close();
-  return parse_scene(json);
-}
+std::string input_path = "../scenes/scene3.json";
+std::string output_path = "../images/scene3.ppm";
 
 int main(int argc, char** argv) {
-  auto scene = read_scene("../scenes/scene1.json");
+  std::ifstream ifs(input_path, std::ios::in);
+  json s;
+  ifs >> s;
+  ifs.close();
+  auto scene = parse_scene(s);
   scene.render();
-  scene.save("scene1.ppm");
+  scene.save(output_path);
 }

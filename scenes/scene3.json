@@ -1,6 +1,9 @@
 {
   "camera" : {
-    "position" : [0, 10, 40]
+    "position" : [0, 10, 40],
+    "width" : 400,
+    "height" : 300,
+    "field" : 45
   },
 
   "lights" : [

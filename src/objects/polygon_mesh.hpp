@@ -13,8 +13,8 @@ private:
 
 public:
   PolygonMesh(const std::string &path, const Vector &position, float size, const Material &material) : Object(material) {
-    std::ifstream ifs(path, std::ios::in);
     if (path.substr(path.length() - 4) == ".obj") {
+      std::ifstream ifs(path, std::ios::in);
       for (std::string buffer; ifs >> buffer; ) {
         if (buffer == "v") {
           float x, y, z;
@@ -28,6 +28,7 @@ public:
           }
         }
       }
+      ifs.close();
     }
     // transformation
     auto center = Vector::ZERO;
