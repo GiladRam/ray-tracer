@@ -104,10 +104,10 @@ void scene3(const Camera* camera) {
 
 int main(int argc, char** argv) {
   srand((unsigned)time(nullptr));
-  auto camera = new Camera(Vector(0, 10, 40), 200, 150);
+//  auto camera = new Camera(Vector(0, 10, 40), 200, 150);
 //  auto camera = new Camera(Vector(0, 10, 40), 400, 300);
 //  auto camera = new Camera(Vector(0, 10, 40), 800, 600);
 //  auto camera = new Camera(Vector(0, 10, 40), 1600, 1200);
-//  auto camera = new Camera(Vector(0, 10, 40), 2400, 1800);
+  auto camera = new Camera(Vector(0, 10, 40), 2400, 1800);
   scene3(camera);
 }
