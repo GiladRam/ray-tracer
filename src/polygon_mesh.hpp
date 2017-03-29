@@ -48,7 +48,8 @@ public:
       const Triangle* triangle = (const Triangle*)object;
       auto vector = triangle->get_normal(position);
       if (fabsf(vector.dot(position - triangle->pointA)) < numeric_eps) {
-        normal += vector;
+        return vector;
+//        normal += vector;
       }
     }
     return normal.normalize();

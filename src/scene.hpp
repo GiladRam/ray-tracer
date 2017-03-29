@@ -111,11 +111,11 @@ public:
   }
 
   void add(const Light* light) {
-    lights.push_back(light);
+    lights.emplace_back(light);
   }
 
   void add(const Object* object) {
-    objects.push_back(object);
+    objects.emplace_back(object);
   }
 
   void render() {
@@ -136,7 +136,7 @@ public:
           frame[y * camera->width + x] = trace(ray);
         }
       };
-      workers.push_back(std::thread(render));
+      workers.emplace_back(std::thread(render));
     }
     for (unsigned i; (i = counter.load()) < camera->width * camera->height; ) {
       auto now = std::chrono::high_resolution_clock::now();

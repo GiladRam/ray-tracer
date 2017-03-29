@@ -17,7 +17,7 @@ public:
     for (unsigned i = 0; i < sample; ++i) {
       for (unsigned j = 0; j < sample; ++j) {
         Vector ratio((i + randf()) / sample, randf(), (j + randf()) / sample);
-        this->lights.push_back(new PointLight(color, intensity, position + ratio * size));
+        this->lights.emplace_back(new PointLight(color, intensity, position + ratio * size));
       }
     }
   }

@@ -20,7 +20,7 @@ void scene1(const Camera* camera) {
 //    Vector(0, 1, 0),
 //    Material(Color::YELLOW, 1, .8, 0, 0, 0)
 //  ));
-  // back wall
+//  // back wall
 //  scene.add(new Plane(
 //    Vector(0, 0, -30),
 //    Vector(0, 0, 1),
@@ -36,10 +36,28 @@ void scene1(const Camera* camera) {
 //    Vector(-5, 5, -15), 3,
 //    Material(Color::WHITE, .5, .8, .2, 0, 0)
 //  ));
-  scene.add(new PolygonMesh(
-    "../models/teapot.obj",
-    Material(Color::RED, .5, .8, .2, 0, 0)
-  ));
+  std::ifstream ifs("../models/teapot.obj", std::ios::in);
+  std::vector<Vector> vertices;
+  for (std::string buffer; ifs >> buffer; ) {
+    if (buffer == "v") {
+      float x, y, z;
+      ifs >> x >> y >> z;
+      vertices.emplace_back(x * 4, y * 4, z * 4 - 15);
+    } else if (buffer == "f") {
+      int v[3];
+      for (int i = 0; i < 3; ++i) {
+        ifs >> buffer;
+        sscanf(buffer.c_str(), "%d", &v[i]);
+        --v[i];
+      }
+      scene.add(new Triangle(vertices[v[0]], vertices[v[1]], vertices[v[2]], Material(Color::WHITE, 1, 0, 0, 0, 0)));
+    }
+  }
+
+//  scene.add(new PolygonMesh(
+//    "../models/cube.obj",
+//    Material(Color::RED, .5, .8, .2, 0, 0)
+//  ));
 //  scene.add(new Triangle(
 //    Vector(-5, 5, -15),
 //    Vector(-5, -5, -15),
