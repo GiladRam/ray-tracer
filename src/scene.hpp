@@ -152,8 +152,8 @@ public:
     std::cerr << std::endl << "done in " << (now - start).count() / 1e9 << " seconds" << std::endl;
   }
 
-  void save(const std::string &name) const {
-    std::ofstream ofs(name, std::ios::out | std::ios::binary);
+  void save(const std::string &path) const {
+    std::ofstream ofs(path, std::ios::out | std::ios::binary);
     ofs << "P6\n" << camera->width << " " << camera->height << "\n255\n";
     for (unsigned i = 0; i < camera->height * camera->width; ++i) {
       ofs << static_cast<char>(clamp(frame[i].x, 0, 1) * 255)

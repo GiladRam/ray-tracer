@@ -6,7 +6,7 @@
 
 class BoxLight : public Light {
 private:
-  std::vector<const PointLight*> lights;
+  std::vector<const Light*> lights;
 
 public:
   Vector position, size;
