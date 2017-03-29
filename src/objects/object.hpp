@@ -1,7 +1,7 @@
 #pragma once
 
-#include "material.hpp"
-#include "vector.hpp"
+#include "../material.hpp"
+#include "../vector.hpp"
 
 class Ray;
 

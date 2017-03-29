@@ -1,10 +1,10 @@
 #include "camera.hpp"
 #include "scene.hpp"
-#include "box_light.hpp"
-#include "plane.hpp"
-#include "sphere.hpp"
-#include "triangle.hpp"
-#include "polygon_mesh.hpp"
+#include "lights/box_light.hpp"
+#include "objects/plane.hpp"
+#include "objects/sphere.hpp"
+#include "objects/triangle.hpp"
+#include "objects/polygon_mesh.hpp"
 
 void scene1(const Camera* camera) {
   auto scene = Scene(camera);

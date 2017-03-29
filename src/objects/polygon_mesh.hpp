@@ -42,7 +42,8 @@ public:
       auto c = std::get<2>(face);
       objects.emplace_back(new Triangle(vertices[a], vertices[b], vertices[c], material));
     }
-    if (faces.size() >= 30) {
+    if (faces.size() > 30) {
+      // mesh smoothing
       auto count = std::vector<int>(vertices.size(), 0);
       normals = std::vector<Vector>(vertices.size(), Vector::ZERO);
       for (auto i = 0; i < faces.size(); ++i) {
@@ -74,38 +75,29 @@ public:
   }
 
   Vector get_normal(const Vector &position, const Ray &ray) const {
-//    auto normal = Vector::ZERO;
-    auto index = 0;
     auto distance = std::numeric_limits<float>::max();
-    for (auto i = 0; i < faces.size(); ++i) {
-      auto face_normal = objects[i]->get_normal(position, ray);
-      auto length = objects[i]->intersect(ray);
+    auto i = 0;
+    for (auto j = 0; j < faces.size(); ++j) {
+      auto face_normal = objects[j]->get_normal(position, ray);
+      auto length = objects[j]->intersect(ray);
       if (length < distance) {
         distance = length;
-        index = i;
+        i = j;
       }
     }
-//    std::cout << "===============" << std::endl;
-    auto face_normal = objects[index]->get_normal(position, ray);
     if (!normals.empty()) {
-//      auto ray = Ray(position + face_normal * 100, -face_normal);
-      auto pointA = objects[index]->pointA;
-      auto pointB = objects[index]->pointB;
-      auto pointC = objects[index]->pointC;
-      auto vectorP = ray.direction.det(pointC - pointA);
-      auto det = vectorP.dot(pointB - pointA);
-      auto vectorT = ray.source - pointA;
+      auto vectorP = ray.direction.det(objects[i]->pointC - objects[i]->pointA);
+      auto det = vectorP.dot(objects[i]->pointB - objects[i]->pointA);
+      auto vectorT = ray.source - objects[i]->pointA;
       auto u = vectorT.dot(vectorP) / det;
-      u = clamp(u, 0, 1);
-      auto vectorQ = vectorT.det(pointB - pointA);
+      auto vectorQ = vectorT.det(objects[i]->pointB - objects[i]->pointA);
       auto v = ray.direction.dot(vectorQ) / det;
-      v = clamp(v, 0, 1 - u);
-      auto a = std::get<0>(faces[index]);
-      auto b = std::get<1>(faces[index]);
-      auto c = std::get<2>(faces[index]);
+      auto a = std::get<0>(faces[i]);
+      auto b = std::get<1>(faces[i]);
+      auto c = std::get<2>(faces[i]);
       return ((1 - u - v) * normals[a] + u * normals[b] + v * normals[c]).normalize();
     } else {
-      return face_normal.normalize();
+      return objects[i]->get_normal(position, ray);
     }
   }
 };
