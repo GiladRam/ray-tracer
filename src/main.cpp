@@ -3,6 +3,7 @@
 #include "box_light.hpp"
 #include "plane.hpp"
 #include "sphere.hpp"
+#include "triangle.hpp"
 
 void scene1(const Camera* camera) {
   auto scene = Scene(camera);
@@ -25,20 +26,26 @@ void scene1(const Camera* camera) {
     Material(Color::BLUE, 1, .8, 0, 0, 0)
   ));
   // red ball
-  scene.add(new Sphere(
-    Vector(5, 5, -15), 2,
+//  scene.add(new Sphere(
+//    Vector(5, 5, -15), 2,
+//    Material(Color::RED, .5, .8, .2, 0, 0)
+//  ));
+  // white ball
+//  scene.add(new Sphere(
+//    Vector(-5, 5, -15), 3,
+//    Material(Color::WHITE, .5, .8, .2, 0, 0)
+//  ));
+  scene.add(new Triangle(
+    Vector(-5, 5, -15),
+    Vector(-5, -5, -15),
+    Vector(0, 0, -15),
     Material(Color::RED, .5, .8, .2, 0, 0)
   ));
-  // white ball
-  scene.add(new Sphere(
-    Vector(-5, 5, -15), 3,
-    Material(Color::WHITE, .5, .8, .2, 0, 0)
-  ));
   // glass ball
-  scene.add(new Sphere(
-    Vector(0, 5, 5), 5,
-    Material(Color::WHITE, 0, 0, 0, 1, 1.05)
-  ));
+//  scene.add(new Sphere(
+//    Vector(0, 5, 5), 5,
+//    Material(Color::WHITE, 0, 0, 0, 1, 1.05)
+//  ));
   scene.render();
   scene.save("out.ppm");
 }
