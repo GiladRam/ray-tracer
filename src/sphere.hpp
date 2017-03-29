@@ -34,7 +34,7 @@ public:
     }
   }
 
-  Vector get_normal(const Vector &pos) const {
-    return (pos - center).normalize();
+  Vector get_normal(const Vector &position) const {
+    return (position - center).normalize();
   }
 };

@@ -40,7 +40,7 @@ public:
     return distance;
   }
 
-  Vector get_normal(const Vector &pos) const {
+  Vector get_normal(const Vector &position) const {
     return normal;
   }
 };
