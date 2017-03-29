@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../libraries/material.hpp"
+#include "../attributes/material.hpp"
 #include "../libraries/vector.hpp"
 
 class Ray;

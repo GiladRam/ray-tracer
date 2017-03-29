@@ -1,5 +1,5 @@
-#include "libraries/camera.hpp"
-#include "libraries/scene.hpp"
+#include "camera.hpp"
+#include "scene.hpp"
 #include "lights/box_light.hpp"
 #include "objects/plane.hpp"
 #include "objects/sphere.hpp"

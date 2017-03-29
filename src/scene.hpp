@@ -5,11 +5,11 @@
 #include <iostream>
 #include "concurrentqueue.h"
 #include "camera.hpp"
-#include "../lights/light.hpp"
-#include "../objects/object.hpp"
-#include "color.hpp"
-#include "utility.hpp"
-#include "ray.hpp"
+#include "lights/light.hpp"
+#include "objects/object.hpp"
+#include "attributes/color.hpp"
+#include "libraries/utility.hpp"
+#include "libraries/ray.hpp"
 
 class Scene {
 public:

@@ -1,8 +1,8 @@
 #pragma once
 
 #include <cmath>
-#include "vector.hpp"
-#include "ray.hpp"
+#include "libraries/vector.hpp"
+#include "libraries/ray.hpp"
 
 class Camera {
 private:
