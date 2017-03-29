@@ -80,13 +80,13 @@ void scene3(const Camera* camera) {
   scene.add(new Plane(
     Vector(0, 0, 0),
     Vector(0, 1, 0),
-    Material(Color::WHITE, 1, 0, .8, .5, 0, 0)
+    Material(Color::WHITE, 1, .5, .8, .5, 0, 0)
   ));
   // back wall
   scene.add(new Plane(
     Vector(0, 0, -30),
     Vector(0, 0, 1),
-    Material(Color::RED, 1, 0, .8, .5, 0, 0)
+    Material(Color::RED, 1, .5, .8, .5, 0, 0)
   ));
   scene.render();
   scene.save("scene3.ppm");
@@ -99,5 +99,5 @@ int main(int argc, char** argv) {
 //  auto camera = new Camera(Vector(0, 10, 40), 800, 600);
 //  auto camera = new Camera(Vector(0, 10, 40), 1600, 1200);
 //  auto camera = new Camera(Vector(0, 10, 40), 2400, 1800);
-  scene2(camera);
+  scene3(camera);
 }

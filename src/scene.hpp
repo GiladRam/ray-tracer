@@ -14,9 +14,11 @@
 class Scene {
 public:
   struct {
-    int thread_worker = std::thread::hardware_concurrency();
     int trace_depth = 3;
     float trace_bias = 1e-4;
+    int diffusive_reflection_depth = 2;
+    int diffusive_reflection_sample = 32;
+    int thread_worker = std::thread::hardware_concurrency();
     Color environment_color = Color::GRAY;
   } config;
 
@@ -72,21 +74,20 @@ private:
     }
     // reflection
     if (object->material.k_reflective > 0) {
-      float k_diffuse_reflect = 1;
-      if (object->material.k_diffusive_reflective > 0 && depth < 2) {
-        Vector RP = ray.direction.reflect(normal);
-        Vector RN1 = Vector(RP.z, RP.y, -RP.x);
-        Vector RN2 = RP.det(RN1);
-        Color c(0, 0, 0);
-        for (int i = 0; i < 32; ++i) {
-          float len = randf() * k_diffuse_reflect;
-          float angle = static_cast<float>(randf() * 2 * M_PI);
-          float xoff = len * cosf(angle), yoff = len * sinf(angle);
-          Vector R = (RP + RN1 * xoff + RN2 * yoff * k_diffuse_reflect).normalize();
-          Ray ray_reflect(point + R * config.trace_bias, R);
-          c += object->material.k_reflective * trace(ray_reflect, refractive_index, depth + 1);
+      if (object->material.k_diffusive_reflective > 0 && depth < config.diffusive_reflection_depth) {
+        auto dz = ray.direction.reflect(normal);
+        auto dx = Vector(dz.z, dz.y, -dz.x);
+        auto dy = dz.det(dx);
+        auto sum = Color::ZERO;
+        for (auto i = 0; i < config.diffusive_reflection_sample; ++i) {
+          auto len = randf() * object->material.k_diffusive_reflective;
+          auto angle = randf() * 2 * static_cast<float>(M_PI);
+          auto x = len * cosf(angle), y = len * sinf(angle);
+          auto reflective_direction = (dz + x * dx + y * dy * object->material.k_diffusive_reflective).normalize();
+          auto reflective_ray = Ray(point + reflective_direction * config.trace_bias, reflective_direction);
+          sum += object->material.k_reflective * trace(reflective_ray, refractive_index, depth + 1);
         }
-        color += c / 32.;
+        color += sum / config.diffusive_reflection_sample;
       } else {
         auto reflective_direction = ray.direction.reflect(normal);
         auto reflective_ray = Ray(point + reflective_direction * config.trace_bias, reflective_direction);
@@ -96,7 +97,7 @@ private:
     // refraction
     if (object->material.k_refractive > 0) {
       auto refractive_direction = ray.direction.refract(normal, refractive_index / object->material.k_refractive_index);
-      if (refractive_direction != Vector::ZERO) {
+      if (refractive_direction != Vector::INVALID) {
         auto refractive_ray = Ray(point + refractive_direction * config.trace_bias, refractive_direction);
         color += object->material.k_refractive * trace(refractive_ray, object->material.k_refractive_index, depth + 1);
       }

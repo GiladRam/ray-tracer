@@ -6,7 +6,7 @@
 
 class Vector {
 public:
-  static const Vector ZERO;
+  static const Vector ZERO, INVALID;
 
   float x, y, z;
 
@@ -134,7 +134,7 @@ public:
     auto cos = fabsf(dot(normal));
     auto k = 1 - index * index * (1 - cos * cos);
     if (k < numeric_eps) {
-      return Vector::ZERO;
+      return Vector::INVALID;
     }
     return (index * (*this) + (index * cos - sqrtf(k)) * normal).normalize();
   }
@@ -146,3 +146,4 @@ public:
 };
 
 const Vector Vector::ZERO = Vector(0, 0, 0);
+const Vector Vector::INVALID = Vector(0, 0, 0);
