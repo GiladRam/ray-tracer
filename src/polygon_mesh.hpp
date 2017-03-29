@@ -13,7 +13,7 @@ private:
   std::vector<const Triangle*> objects;
 
 public:
-  PolygonMesh(const std::string &path, float scale, const Material &material) : Object(material) {
+  PolygonMesh(const std::string &path, float scale, const Vector &delta, const Material &material) : Object(material) {
     std::ifstream ifs(path, std::ios::in);
     if (path.substr(path.length() - 4) == ".obj") {
       for (std::string buffer; ifs >> buffer; ) {
@@ -34,13 +34,32 @@ public:
       }
     }
     for (auto &vertex : vertices) {
-      vertex *= scale;
+      vertex = vertex * scale + delta;
     }
     for (auto &face : faces) {
-      int a = std::get<0>(face);
-      int b = std::get<1>(face);
-      int c = std::get<2>(face);
+      auto a = std::get<0>(face);
+      auto b = std::get<1>(face);
+      auto c = std::get<2>(face);
       objects.emplace_back(new Triangle(vertices[a], vertices[b], vertices[c], material));
+    }
+    auto count = std::vector<int>(vertices.size(), 0);
+    normals = std::vector<Vector>(vertices.size(), Vector::ZERO);
+    for (auto i = 0; i < faces.size(); ++i) {
+      auto a = std::get<0>(faces[i]);
+      auto b = std::get<1>(faces[i]);
+      auto c = std::get<2>(faces[i]);
+      normals[a] += objects[i]->get_normal(Vector::ZERO);
+      normals[b] += objects[i]->get_normal(Vector::ZERO);
+      normals[c] += objects[i]->get_normal(Vector::ZERO);
+      count[a]++;
+      count[b]++;
+      count[c]++;
+    }
+    for (auto i = 0; i < vertices.size(); ++i) {
+      if (count[i] == 0) {
+        std::cout << "!!!!" << std::endl;
+      }
+      normals[i] /= count[i];
     }
   }
 
@@ -58,11 +77,28 @@ public:
   Vector get_normal(const Vector &position) const {
     auto normal = Vector::ZERO;
     auto minimum = std::numeric_limits<float>::max();
-    for (auto &object : objects) {
-      auto face_normal = object->get_normal(position);
-      auto cos = face_normal.dot(position - object->pointA);
+    for (auto i = 0; i < faces.size(); ++i) {
+      auto face_normal = objects[i]->get_normal(position);
+      auto cos = face_normal.dot(position - objects[i]->pointA);
       if (fabsf(cos) < minimum) {
-        normal = face_normal;
+        if (!normals.empty()) {
+          auto ray = Ray(position, -face_normal);
+          auto pointA = objects[i]->pointA;
+          auto pointB = objects[i]->pointB;
+          auto pointC = objects[i]->pointC;
+          auto vectorP = ray.direction.det(pointC - pointA);
+          auto det = vectorP.dot(pointB - pointA);
+          auto vectorT = ray.source - pointA;
+          auto u = vectorT.dot(vectorP) / det;
+          auto vectorQ = vectorT.det(pointB - pointA);
+          auto v = ray.direction.dot(vectorQ) / det;
+          auto a = std::get<0>(faces[i]);
+          auto b = std::get<1>(faces[i]);
+          auto c = std::get<2>(faces[i]);
+          normal = (1 - u - v) * normals[a] + u * normals[b] + v * normals[c];
+        } else {
+          normal = face_normal;
+        }
         minimum = fabsf(cos);
       }
     }

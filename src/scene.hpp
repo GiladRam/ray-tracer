@@ -127,17 +127,17 @@ public:
         queue.enqueue(std::make_pair(x, y));
       }
     }
-    std::atomic<int> counter(0);
     std::vector<std::thread> workers;
+    std::atomic<int> count(0);
     for (auto i = 0; i < config.thread_worker; ++i) {
       workers.emplace_back([&] {
-        for (std::pair<int, int> item; queue.try_dequeue(item); ++counter) {
+        for (std::pair<int, int> item; queue.try_dequeue(item); ++count) {
           auto x = item.first, y = item.second;
           frame[y * camera->width + x] = trace(camera->ray(x, y));
         }
       });
     }
-    for (int i; (i = counter.load()) < camera->width * camera->height; ) {
+    for (int i; (i = count.load()) < camera->width * camera->height; ) {
       auto now = std::chrono::high_resolution_clock::now();
       std::cerr << "\rrendered " << i << "/" << camera->width * camera->height
                 << " pixels with " << config.thread_worker << " thread workers"
