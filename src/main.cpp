@@ -15,17 +15,17 @@ void scene1(const Camera* camera) {
     Vector(20, .5, 20)
   ));
   // floor
-  scene.add(new Plane(
-    Vector(0, 0, 0),
-    Vector(0, 1, 0),
-    Material(Color::YELLOW, 1, .8, 0, 0, 0)
-  ));
+//  scene.add(new Plane(
+//    Vector(0, 0, 0),
+//    Vector(0, 1, 0),
+//    Material(Color::YELLOW, 1, .8, 0, 0, 0)
+//  ));
   // back wall
-  scene.add(new Plane(
-    Vector(0, 0, -30),
-    Vector(0, 0, 1),
-    Material(Color::BLUE, 1, .8, 0, 0, 0)
-  ));
+//  scene.add(new Plane(
+//    Vector(0, 0, -30),
+//    Vector(0, 0, 1),
+//    Material(Color::BLUE, 1, .8, 0, 0, 0)
+//  ));
 //  // red ball
 //  scene.add(new Sphere(
 //    Vector(5, 5, -15), 2,
