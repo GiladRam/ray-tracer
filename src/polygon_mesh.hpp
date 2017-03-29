@@ -23,7 +23,7 @@ public:
           vertices.emplace_back(x, y, z);
         } else if (buffer == "f") {
           int indices[3];
-          for (int i = 0; i < 3; ++i) {
+          for (auto i = 0; i < 3; ++i) {
             ifs >> buffer;
             std::istringstream iss(buffer);
             iss >> indices[i];
@@ -45,9 +45,9 @@ public:
   }
 
   float intersect(const Ray &ray) const {
-    float distance = std::numeric_limits<float>::max();
+    auto distance = std::numeric_limits<float>::max();
     for (auto &object : objects) {
-      float length = object->intersect(ray);
+      auto length = object->intersect(ray);
       if (length < distance) {
         distance = length;
       }
@@ -57,10 +57,10 @@ public:
 
   Vector get_normal(const Vector &position) const {
     auto normal = Vector::ZERO;
-    float minimum = std::numeric_limits<float>::max();
+    auto minimum = std::numeric_limits<float>::max();
     for (auto &object : objects) {
       auto face_normal = object->get_normal(position);
-      float cos = face_normal.dot(position - object->pointA);
+      auto cos = face_normal.dot(position - object->pointA);
       if (fabsf(cos) < minimum) {
         normal = face_normal;
         minimum = fabsf(cos);

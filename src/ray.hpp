@@ -14,9 +14,9 @@ public:
   }
 
   float intersect(const std::vector<const Object*> &objects) const {
-    float distance = std::numeric_limits<float>::max();
+    auto distance = std::numeric_limits<float>::max();
     for (auto &object : objects) {
-      float length = object->intersect(*this);
+      auto length = object->intersect(*this);
       if (length < distance) {
         distance = length;
       }

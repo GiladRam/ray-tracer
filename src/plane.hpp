@@ -16,11 +16,11 @@ public:
   }
 
   float intersect(const Ray &ray) const {
-    float denominator = normal.dot(ray.direction);
+    auto denominator = normal.dot(ray.direction);
     if (fabsf(denominator) < numeric_eps) {
       return std::numeric_limits<float>::max();
     }
-    float distance = (point - ray.source).dot(normal) / denominator;
+    auto distance = (point - ray.source).dot(normal) / denominator;
     if (distance > -numeric_eps) {
       return distance;
     } else {

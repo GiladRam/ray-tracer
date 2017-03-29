@@ -22,8 +22,8 @@ public:
   }
 
   Ray ray(int x, int y) const {
-    float dx = ((2.f * x + 1) / static_cast<float>(width) - 1) * angle * ratio;
-    float dy = -((2.f * y + 1) / static_cast<float>(height) - 1) * angle;
+    auto dx = ((2.f * x + 1) / width - 1) * angle * ratio;
+    auto dy = -((2.f * y + 1) / height - 1) * angle;
     return Ray(position, Vector(dx, dy, -1));
   }
 };

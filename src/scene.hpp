@@ -30,18 +30,18 @@ private:
     if (depth > config.trace_depth) {
       return config.environment_color;
     }
-    float distance = std::numeric_limits<float>::max();
+    auto distance = std::numeric_limits<float>::max();
     const Object* object = nullptr;
     const Light* light = nullptr;
     for (auto &o : objects) {
-      float length = o->intersect(ray);
+      auto length = o->intersect(ray);
       if (length < distance) {
         distance = length;
         object = o;
       }
     }
     for (auto &l : lights) {
-      float length = l->intersect(ray);
+      auto length = l->intersect(ray);
       if (length < distance) {
         distance = length;
         light = l;
@@ -60,13 +60,13 @@ private:
       auto illuminate = l->illuminate(point + normal * config.trace_bias, objects);
       // diffusive shading
       if (object->material.k_diffusive > 0) {
-        float dot = std::max(.0f, normal.dot(-illuminate.direction));
+        auto dot = std::max(.0f, normal.dot(-illuminate.direction));
         color += object->material.k_diffusive * illuminate.intensity * dot;
       }
       // specular shading (phong's model)
       if (object->material.k_specular > 0) {
         auto reflective_direction = ray.direction.reflect(normal);
-        float dot = std::max(.0f, ray.direction.dot(reflective_direction));
+        auto dot = std::max(.0f, ray.direction.dot(reflective_direction));
         color += object->material.k_specular * illuminate.intensity * powf(dot, 20.f);
       }
     }
@@ -122,14 +122,14 @@ public:
     auto start = std::chrono::high_resolution_clock::now();
     std::cerr << "start rendering with " << config.thread_worker << " thread workers";
     moodycamel::ConcurrentQueue<std::pair<int, int>> queue;
-    for (int y = 0; y < camera->height; ++y) {
-      for (int x = 0; x < camera->width; ++x) {
+    for (auto y = 0; y < camera->height; ++y) {
+      for (auto x = 0; x < camera->width; ++x) {
         queue.enqueue(std::make_pair(x, y));
       }
     }
     std::atomic<int> counter(0);
     std::vector<std::thread> workers;
-    for (int i = 0; i < config.thread_worker; ++i) {
+    for (auto i = 0; i < config.thread_worker; ++i) {
       workers.emplace_back([&] {
         for (std::pair<int, int> item; queue.try_dequeue(item); ++counter) {
           auto x = item.first, y = item.second;
@@ -154,7 +154,7 @@ public:
   void save(const std::string &path) const {
     std::ofstream ofs(path, std::ios::out | std::ios::binary);
     ofs << "P6\n" << camera->width << " " << camera->height << "\n255\n";
-    for (int i = 0; i < camera->height * camera->width; ++i) {
+    for (auto i = 0; i < camera->height * camera->width; ++i) {
       ofs << static_cast<char>(clamp(frame[i].x, 0, 1) * 255)
           << static_cast<char>(clamp(frame[i].y, 0, 1) * 255)
           << static_cast<char>(clamp(frame[i].z, 0, 1) * 255);

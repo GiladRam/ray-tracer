@@ -16,14 +16,6 @@ public:
     this->z = z;
   }
 
-  bool operator == (const Vector &v) {
-    return x == v.x && y == v.y && z == v.z;
-  }
-
-  bool operator != (const Vector &v) {
-    return !(*this == v);
-  }
-
   Vector& operator += (const Vector &v) {
     x += v.x;
     y += v.y;
@@ -98,6 +90,14 @@ public:
     return Vector(-x, -y, -z);
   }
 
+  bool operator == (const Vector &v) {
+    return x == v.x && y == v.y && z == v.z;
+  }
+
+  bool operator != (const Vector &v) {
+    return !(*this == v);
+  }
+
   float dot(const Vector &v) const {
     return x * v.x + y * v.y + z * v.z;
   }
@@ -111,7 +111,7 @@ public:
   }
 
   Vector normalize() const {
-    float factor = length();
+    auto factor = length();
     if (factor < numeric_eps) {
       return Vector::ZERO;
     }
@@ -123,8 +123,8 @@ public:
   }
 
   Vector refract(Vector normal, float index) const {
-    float cos = fabsf(dot(normal));
-    float k = 1 - index * index * (1 - cos * cos);
+    auto cos = fabsf(dot(normal));
+    auto k = 1 - index * index * (1 - cos * cos);
     if (k < numeric_eps) {
       return Vector::ZERO;
     }

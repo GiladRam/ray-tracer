@@ -16,17 +16,17 @@ public:
 
   float intersect(const Ray &ray) const {
     auto v = center - ray.source;
-    float tca = v.dot(ray.direction);
+    auto tca = v.dot(ray.direction);
     if (tca < -numeric_eps) {
       return std::numeric_limits<float>::max();
     }
-    float d2 = radius * radius - v.dot(v) + tca * tca;
+    auto d2 = radius * radius - v.dot(v) + tca * tca;
     if (d2 < -numeric_eps) {
       return std::numeric_limits<float>::max();
     }
-    float thc = sqrtf(d2);
-    float t0 = tca - thc;
-    float t1 = tca + thc;
+    auto thc = sqrtf(d2);
+    auto t0 = tca - thc;
+    auto t1 = tca + thc;
     if (t0 > numeric_eps) {
       return t0;
     } else {
