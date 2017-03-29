@@ -15,7 +15,7 @@ public:
     auto direction = position - this->position;
     auto ray = Ray(position, -direction);
     auto distance = direction.length();
-    if (ray.intersect(objects) <= distance) {
+    if (ray.intersect(objects) < distance + numeric_eps) {
       return {.direction = Vector::ZERO, .intensity = Color::ZERO};
     }
     auto intensity = this->color * this->intensity / (4 * M_PI * distance * distance);

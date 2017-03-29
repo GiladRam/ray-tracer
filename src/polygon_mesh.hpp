@@ -18,7 +18,8 @@ public:
       if (buffer == "v") {
         float x, y, z;
         ifs >> x >> y >> z;
-        vertices.emplace_back(x, y, z);
+        vertices.emplace_back(x * 4, y * 4, z * 4 - 15);
+//        vertices.emplace_back(x, y, z);
       } else if (buffer == "f") {
         int v[3];
         for (int i = 0; i < 3; ++i) {
@@ -44,12 +45,14 @@ public:
 
   Vector get_normal(const Vector &position) const {
     Vector normal = Vector::ZERO;
+    float minimum = std::numeric_limits<float>::max();
     for (auto &object : objects) {
       const Triangle* triangle = (const Triangle*)object;
       auto vector = triangle->get_normal(position);
-      if (fabsf(vector.dot(position - triangle->pointA)) < numeric_eps) {
-        return vector;
-//        normal += vector;
+      float dot = vector.dot(position - triangle->pointA);
+      if (fabsf(dot) < fabsf(minimum)) {
+        normal = vector;
+        minimum = dot;
       }
     }
     return normal.normalize();
