@@ -55,7 +55,7 @@ private:
     }
     auto color = Color::ZERO;
     auto point = ray.source + ray.direction * distance;
-    auto normal = object->get_normal(point);
+    auto normal = object->get_normal(point, ray);
     for (auto &l : lights) {
       auto illuminate = l->illuminate(point + normal * config.trace_bias, objects);
       // diffusive shading
@@ -73,12 +73,12 @@ private:
     // reflection
     if (object->material.k_reflective > 0) {
       float k_diffuse_reflect = 1;
-      if (k_diffuse_reflect > 0 && depth < 2) {
+      if (object->material.k_diffusive_reflective > 0 && depth < 2) {
         Vector RP = ray.direction.reflect(normal);
         Vector RN1 = Vector(RP.z, RP.y, -RP.x);
         Vector RN2 = RP.det(RN1);
         Color c(0, 0, 0);
-        for (int i = 0; i < 256; ++i) {
+        for (int i = 0; i < 32; ++i) {
           float len = randf() * k_diffuse_reflect;
           float angle = static_cast<float>(randf() * 2 * M_PI);
           float xoff = len * cosf(angle), yoff = len * sinf(angle);
@@ -86,7 +86,7 @@ private:
           Ray ray_reflect(point + R * config.trace_bias, R);
           c += object->material.k_reflective * trace(ray_reflect, refractive_index, depth + 1);
         }
-        color += c / 256.;
+        color += c / 32.;
       } else {
         auto reflective_direction = ray.direction.reflect(normal);
         auto reflective_ray = Ray(point + reflective_direction * config.trace_bias, reflective_direction);

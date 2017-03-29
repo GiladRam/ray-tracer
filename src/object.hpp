@@ -15,7 +15,7 @@ public:
 
   virtual float intersect(const Ray &ray) const = 0;
 
-  virtual Vector get_normal(const Vector &position) const = 0;
+  virtual Vector get_normal(const Vector &position, const Ray &ray) const = 0;
 
   virtual Color get_color(const Vector &position) const {
     return material.color;

@@ -49,17 +49,14 @@ public:
         auto a = std::get<0>(faces[i]);
         auto b = std::get<1>(faces[i]);
         auto c = std::get<2>(faces[i]);
-        normals[a] += objects[i]->get_normal(Vector::ZERO);
-        normals[b] += objects[i]->get_normal(Vector::ZERO);
-        normals[c] += objects[i]->get_normal(Vector::ZERO);
+        normals[a] += objects[i]->get_normal(Vector::ZERO, Ray(Vector::ZERO, Vector::ZERO));
+        normals[b] += objects[i]->get_normal(Vector::ZERO, Ray(Vector::ZERO, Vector::ZERO));
+        normals[c] += objects[i]->get_normal(Vector::ZERO, Ray(Vector::ZERO, Vector::ZERO));
         count[a]++;
         count[b]++;
         count[c]++;
       }
       for (auto i = 0; i < vertices.size(); ++i) {
-        if (count[i] == 0) {
-          std::cout << "!!!!" << std::endl;
-        }
         normals[i] /= count[i];
       }
     }
@@ -76,34 +73,39 @@ public:
     return distance;
   }
 
-  Vector get_normal(const Vector &position) const {
-    auto normal = Vector::ZERO;
-    auto minimum = std::numeric_limits<float>::max();
+  Vector get_normal(const Vector &position, const Ray &ray) const {
+//    auto normal = Vector::ZERO;
+    auto index = 0;
+    auto distance = std::numeric_limits<float>::max();
     for (auto i = 0; i < faces.size(); ++i) {
-      auto face_normal = objects[i]->get_normal(position);
-      auto cos = face_normal.dot(position - objects[i]->pointA);
-      if (fabsf(cos) < minimum) {
-        if (!normals.empty()) {
-          auto ray = Ray(position, -face_normal);
-          auto pointA = objects[i]->pointA;
-          auto pointB = objects[i]->pointB;
-          auto pointC = objects[i]->pointC;
-          auto vectorP = ray.direction.det(pointC - pointA);
-          auto det = vectorP.dot(pointB - pointA);
-          auto vectorT = ray.source - pointA;
-          auto u = vectorT.dot(vectorP) / det;
-          auto vectorQ = vectorT.det(pointB - pointA);
-          auto v = ray.direction.dot(vectorQ) / det;
-          auto a = std::get<0>(faces[i]);
-          auto b = std::get<1>(faces[i]);
-          auto c = std::get<2>(faces[i]);
-          normal = (1 - u - v) * normals[a] + u * normals[b] + v * normals[c];
-        } else {
-          normal = face_normal;
-        }
-        minimum = fabsf(cos);
+      auto face_normal = objects[i]->get_normal(position, ray);
+      auto length = objects[i]->intersect(ray);
+      if (length < distance) {
+        distance = length;
+        index = i;
       }
     }
-    return normal.normalize();
+//    std::cout << "===============" << std::endl;
+    auto face_normal = objects[index]->get_normal(position, ray);
+    if (!normals.empty()) {
+//      auto ray = Ray(position + face_normal * 100, -face_normal);
+      auto pointA = objects[index]->pointA;
+      auto pointB = objects[index]->pointB;
+      auto pointC = objects[index]->pointC;
+      auto vectorP = ray.direction.det(pointC - pointA);
+      auto det = vectorP.dot(pointB - pointA);
+      auto vectorT = ray.source - pointA;
+      auto u = vectorT.dot(vectorP) / det;
+      u = clamp(u, 0, 1);
+      auto vectorQ = vectorT.det(pointB - pointA);
+      auto v = ray.direction.dot(vectorQ) / det;
+      v = clamp(v, 0, 1 - u);
+      auto a = std::get<0>(faces[index]);
+      auto b = std::get<1>(faces[index]);
+      auto c = std::get<2>(faces[index]);
+      return ((1 - u - v) * normals[a] + u * normals[b] + v * normals[c]).normalize();
+    } else {
+      return face_normal.normalize();
+    }
   }
 };
