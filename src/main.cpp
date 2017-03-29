@@ -61,7 +61,7 @@ void scene2(const Camera* camera) {
   ));
   // teapot
   scene.add(new PolygonMesh(
-    "../models/teapot.obj", 2, Vector(0, 0, -15),
+    "../models/dinasour.obj", 0.5, Vector(0, 0, -15),
     Material(Color::WHITE, 1, 0, 0, 0, 0)
   ));
   scene.render();
@@ -71,8 +71,8 @@ void scene2(const Camera* camera) {
 int main(int argc, char** argv) {
   srand((unsigned)time(nullptr));
 //  scene2(new Camera(Vector(0, 10, 40), 200, 150));
-  scene2(new Camera(Vector(0, 10, 40), 400, 300));
-//  scene2(new Camera(Vector(0, 10, 40), 800, 600));
+//  scene2(new Camera(Vector(0, 10, 40), 400, 300));
+  scene2(new Camera(Vector(0, 10, 40), 800, 600));
 //  scene2(new Camera(Vector(0, 10, 40), 1600, 1200));
 //  scene2(new Camera(Vector(0, 10, 40), 2400, 1800));
 }

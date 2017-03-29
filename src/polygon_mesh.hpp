@@ -42,24 +42,26 @@ public:
       auto c = std::get<2>(face);
       objects.emplace_back(new Triangle(vertices[a], vertices[b], vertices[c], material));
     }
-    auto count = std::vector<int>(vertices.size(), 0);
-    normals = std::vector<Vector>(vertices.size(), Vector::ZERO);
-    for (auto i = 0; i < faces.size(); ++i) {
-      auto a = std::get<0>(faces[i]);
-      auto b = std::get<1>(faces[i]);
-      auto c = std::get<2>(faces[i]);
-      normals[a] += objects[i]->get_normal(Vector::ZERO);
-      normals[b] += objects[i]->get_normal(Vector::ZERO);
-      normals[c] += objects[i]->get_normal(Vector::ZERO);
-      count[a]++;
-      count[b]++;
-      count[c]++;
-    }
-    for (auto i = 0; i < vertices.size(); ++i) {
-      if (count[i] == 0) {
-        std::cout << "!!!!" << std::endl;
+    if (faces.size() >= 30) {
+      auto count = std::vector<int>(vertices.size(), 0);
+      normals = std::vector<Vector>(vertices.size(), Vector::ZERO);
+      for (auto i = 0; i < faces.size(); ++i) {
+        auto a = std::get<0>(faces[i]);
+        auto b = std::get<1>(faces[i]);
+        auto c = std::get<2>(faces[i]);
+        normals[a] += objects[i]->get_normal(Vector::ZERO);
+        normals[b] += objects[i]->get_normal(Vector::ZERO);
+        normals[c] += objects[i]->get_normal(Vector::ZERO);
+        count[a]++;
+        count[b]++;
+        count[c]++;
       }
-      normals[i] /= count[i];
+      for (auto i = 0; i < vertices.size(); ++i) {
+        if (count[i] == 0) {
+          std::cout << "!!!!" << std::endl;
+        }
+        normals[i] /= count[i];
+      }
     }
   }
 
