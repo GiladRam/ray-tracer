@@ -22,22 +22,22 @@ public:
   }
 
   float intersect(const Ray &ray) const {
-    auto d = ray.direction, o = ray.source;
+    auto d = ray.direction, s = ray.source;
     auto p1 = position, p2 = position + size;
     float distances[] = {
-      d.x ? (p1.x - o.x) / d.x : 0,
-      d.x ? (p2.x - o.x) / d.x : 0,
-      d.y ? (p1.y - o.y) / d.y : 0,
-      d.y ? (p2.y - o.y) / d.y : 0,
-      d.z ? (p1.z - o.z) / d.z : 0,
-      d.z ? (p2.z - o.z) / d.z : 0
+      d.x ? (p1.x - s.x) / d.x : 0,
+      d.x ? (p2.x - s.x) / d.x : 0,
+      d.y ? (p1.y - s.y) / d.y : 0,
+      d.y ? (p2.y - s.y) / d.y : 0,
+      d.z ? (p1.z - s.z) / d.z : 0,
+      d.z ? (p2.z - s.z) / d.z : 0
     };
     auto distance = std::numeric_limits<float>::max();
     for (auto i = 0; i < 6; ++i) {
       if (distances[i] == 0) {
         continue;
       }
-      auto p = o + distances[i] * d;
+      auto p = s + distances[i] * d;
       if (p.x < p1.x - numeric_eps || p.x > p2.x + numeric_eps) {
         continue;
       }

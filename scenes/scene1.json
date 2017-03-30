@@ -75,13 +75,13 @@
     },
     {
       "type" : "sphere",
-      "center" : [0, 5, 5],
+      "center" : [0, 5, 0],
       "radius" : 5,
       "material" : {
         "color" : [1, 1, 1],
         "k_diffusive" : 0,
         "k_diffusive_reflective" : 0,
-        "k_specular" : 0,
+        "k_specular" : 0.8,
         "k_reflective" : 0,
         "k_refractive" : 1,
         "k_refractive_index" : 1.05
