@@ -15,6 +15,7 @@
 ## Usage
 
 ### Dependencies
+* `CMake >= 3.5`
 
 ### Compile
 ```
