@@ -72,8 +72,8 @@ Scene parse_scene(const json &s) {
   return scene;
 }
 
-std::string input_path = "../scenes/scene1.json";
-std::string output_path = "../images/scene1.ppm";
+std::string input_path = "../scenes/scene2.json";
+std::string output_path = "../images/scene2.ppm";
 
 int main(int argc, char** argv) {
   std::ifstream ifs(input_path, std::ios::in);
