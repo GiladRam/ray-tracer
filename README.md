@@ -2,14 +2,15 @@
 
 ## Introduction
 
-`ray-tracer` is a 3D rendering engine written in C++.
+`ray-tracer` is a multi-thread 3D rendering engine written in `C++`.
 
 ## Features
-* Phong Model and Monte Carlo Path Tracing Model
-* rendering of plane, sphere and mesh
-* read mesh from a simple obj file
+* multi-thread rendering
+* read scene setting from a simple `.json` file
+* [Phong reflection model](http://en.wikipedia.org/wiki/Phong_reflection_model) and [Monte Carlo path tracing model](http://en.wikipedia.org/wiki/Path_tracing)
+* rendering of plane, sphere and polygon mesh
+* read polygon mesh from a simple `.obj` file
 * mesh smoothing
-* read scene from a simple json file
 
 ## Usage
 
@@ -18,8 +19,7 @@
 ### Compile
 ```
 mkdir bin/ && cd bin/
-cmake ..
-make all
+cmake .. && make all
 ```
 ## Examples
 
