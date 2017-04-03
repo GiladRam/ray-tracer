@@ -22,6 +22,7 @@
       "center" : [0, 0, 0],
       "normal" : [0, 1, 0],
       "material" : {
+        "type" : "homo_texture",
         "color" : [0.9, 0.72, 0.46],
         "k_diffusive" : 1,
         "k_diffusive_reflective" : 0,
@@ -36,6 +37,7 @@
       "center" : [0, 0, -30],
       "normal" : [0, 0, 1],
       "material" : {
+        "type" : "homo_texture",
         "color" : [0.65, 0.77, 0.97],
         "k_diffusive" : 1,
         "k_diffusive_reflective" : 0,
@@ -50,6 +52,7 @@
       "center" : [5, 5, -15],
       "radius" : 2,
       "material" : {
+        "type" : "homo_texture",
         "color" : [1, 0.32, 0.36],
         "k_diffusive" : 1,
         "k_diffusive_reflective" : 0,
@@ -64,6 +67,7 @@
       "center" : [-5, 5, -15],
       "radius" : 3,
       "material" : {
+        "type" : "homo_texture",
         "color" : [1, 1, 1],
         "k_diffusive" : 1,
         "k_diffusive_reflective" : 0,
@@ -78,6 +82,7 @@
       "center" : [0, 5, 0],
       "radius" : 5,
       "material" : {
+        "type" : "homo_texture",
         "color" : [1, 1, 1],
         "k_diffusive" : 0,
         "k_diffusive_reflective" : 0,

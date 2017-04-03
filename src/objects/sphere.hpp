@@ -40,10 +40,8 @@ public:
 
   Color get_color(const Vector &position) const {
     auto normal = (position - center).normalize();
-    auto x = (1 + atan2(normal.z, normal.x) / M_PI) * 0.5;
-    auto y = acosf(normal.y) / M_PI;
-    float scaleS = 20, scaleT = 20;
-    float pattern = (modulo(x * scaleS) < 0.5) ^  (modulo(y * scaleT) < 0.5);
-    return pattern * texture->get_color(0, 0);
+    auto x = (1 + atan2(normal.z, normal.x) / static_cast<float>(M_PI)) * 0.5;
+    auto y = acosf(normal.y) / static_cast<float>(M_PI);
+    return texture->get_color(x, y);
   }
 };

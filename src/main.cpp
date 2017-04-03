@@ -6,6 +6,7 @@
 #include "objects/polygon_mesh.hpp"
 #include "json.hpp"
 #include "textures/homo_texture.hpp"
+#include "textures/grid_texture.hpp"
 
 using json = nlohmann::json;
 
@@ -18,15 +19,28 @@ Vector parse_color(const json &c) {
 }
 
 const Texture* parse_texture(const json &m) {
-  return new HomoTexture(
-    parse_color(m["color"]),
-    m["k_diffusive"],
-    m["k_diffusive_reflective"],
-    m["k_specular"],
-    m["k_reflective"],
-    m["k_refractive"],
-    m["k_refractive_index"]
-  );
+  if (m["type"] == "homo_texture") {
+    return new HomoTexture(
+      parse_color(m["color"]),
+      m["k_diffusive"],
+      m["k_diffusive_reflective"],
+      m["k_specular"],
+      m["k_reflective"],
+      m["k_refractive"],
+      m["k_refractive_index"]
+    );
+  } else if (m["type"] == "grid_texture") {
+    return new GridTexture(
+      m["size"],
+      {parse_color(m["colors"][0]), parse_color(m["colors"][1])},
+      m["k_diffusive"],
+      m["k_diffusive_reflective"],
+      m["k_specular"],
+      m["k_reflective"],
+      m["k_refractive"],
+      m["k_refractive_index"]
+    );
+  }
 }
 
 Scene parse_scene(const json &s) {
