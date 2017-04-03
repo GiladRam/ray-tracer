@@ -47,9 +47,9 @@
     },
     {
       "type" : "polygon_mesh",
-      "path" : "../models/teapot.obj",
+      "path" : "../models/human.obj",
       "position" : [0, 10, -10],
-      "size" : 20,
+      "size" : 10,
       "material" : {
         "color" : [1, 1, 1],
         "k_diffusive" : 1,

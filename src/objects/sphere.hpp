@@ -9,7 +9,7 @@ public:
   Vector center;
   float radius;
 
-  Sphere(const Vector &center, float radius, const Material &material) : Object(material) {
+  Sphere(const Vector &center, float radius, const Texture *texture) : Object(texture) {
     this->center = center;
     this->radius = radius;
   }
@@ -44,6 +44,6 @@ public:
     auto y = acosf(normal.y) / M_PI;
     float scaleS = 20, scaleT = 20;
     float pattern = (modulo(x * scaleS) < 0.5) ^  (modulo(y * scaleT) < 0.5);
-    return pattern * material.color;
+    return pattern * texture->get_color(0, 0);
   }
 };

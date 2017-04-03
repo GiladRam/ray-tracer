@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../libraries/vector.hpp"
+#include "vector.hpp"
 
 class Color : public Vector {
 public:

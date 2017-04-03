@@ -12,7 +12,7 @@ private:
   std::vector<const Triangle*> objects;
 
 public:
-  PolygonMesh(const std::string &path, const Vector &position, float size, const Material &material) : Object(material) {
+  PolygonMesh(const std::string &path, const Vector &position, float size, const Texture *texture) : Object(texture) {
     if (path.substr(path.length() - 4) == ".obj") {
       std::ifstream ifs(path, std::ios::in);
       for (std::string buffer; ifs >> buffer; ) {
@@ -55,7 +55,7 @@ public:
       vertex = (vertex - center) * scale + position;
     }
     for (auto &face : faces) {
-      objects.emplace_back(new Triangle(vertices[face[0]], vertices[face[1]], vertices[face[2]], material));
+      objects.emplace_back(new Triangle(vertices[face[0]], vertices[face[1]], vertices[face[2]], texture));
     }
     // mesh smoothing
     if (faces.size() > 32) {

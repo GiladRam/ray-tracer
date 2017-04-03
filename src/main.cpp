@@ -5,6 +5,7 @@
 #include "objects/sphere.hpp"
 #include "objects/polygon_mesh.hpp"
 #include "json.hpp"
+#include "textures/homo_texture.hpp"
 
 using json = nlohmann::json;
 
@@ -16,8 +17,8 @@ Vector parse_color(const json &c) {
   return Color(c[0], c[1], c[2]);
 }
 
-Material parse_texture(const json &m) {
-  return Material(
+const Texture* parse_texture(const json &m) {
+  return new HomoTexture(
     parse_color(m["color"]),
     m["k_diffusive"],
     m["k_diffusive_reflective"],
@@ -72,15 +73,18 @@ Scene parse_scene(const json &s) {
   return scene;
 }
 
-std::string input_path = "../scenes/scene4.json";
-std::string output_path = "../images/scene4.ppm";
-
 int main(int argc, char** argv) {
-  std::ifstream ifs(input_path, std::ios::in);
+  std::string load_path = "../scenes/scene4.json";
+  std::string dump_path = "../images/scene4.ppm";
+  if (argc > 2) {
+    load_path = argv[1];
+    dump_path = argv[2];
+  }
+  std::ifstream ifs(load_path, std::ios::in);
   json s;
   ifs >> s;
   ifs.close();
   auto scene = parse_scene(s);
   scene.render();
-  scene.save(output_path);
+  scene.save(dump_path);
 }

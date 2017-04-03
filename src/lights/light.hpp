@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../attributes/color.hpp"
+#include "../libraries/color.hpp"
 #include "../libraries/ray.hpp"
 
 class Light {
