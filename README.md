@@ -7,10 +7,11 @@
 ## Features
 * multi-thread rendering
 * read scene setting from a simple `.json` file
-* soft shadow (area lights)
 * [Phong reflection model](http://en.wikipedia.org/wiki/Phong_reflection_model) and [Monte Carlo path tracing model](http://en.wikipedia.org/wiki/Path_tracing)
 * rendering of plane, sphere and polygon mesh
 * read polygon mesh from a simple `.obj` file
+* soft shadow (area lights)
+* procedural texture
 * mesh smoothing
 
 ## Usage
