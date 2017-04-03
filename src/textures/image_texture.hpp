@@ -6,7 +6,7 @@
 
 class ImageTexture : public Texture {
 private:
-  unsigned char *image;
+  unsigned char* image;
   int width, height;
   float scale;
 
@@ -19,7 +19,7 @@ public:
   Color get_color(float x, float y) const {
     auto a = static_cast<int>(round(scale * x) - height / 2);
     auto b = static_cast<int>(round(scale * y) - width / 2);
-    auto pos = 3 * width * modulo(a, height) + 3 * modulo(b, width);
-    return Color(image[pos] / 255.f, image[pos + 1] / 255.f, image[pos + 2] / 255.f);
+    auto p = modulo(a, height) * width + modulo(b, width);
+    return Color(image[p * 3] / 255.f, image[p * 3 + 1] / 255.f, image[p * 3 + 2] / 255.f);
   }
 };

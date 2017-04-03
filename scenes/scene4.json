@@ -22,8 +22,9 @@
       "center" : [0, 0, 0],
       "normal" : [0, 1, 0],
       "texture" : {
-        "type" : "homo_texture",
-        "color" : [1, 1, 1],
+        "type" : "image_texture",
+        "path" : "../resources/ground.jpg",
+        "scale" : 100,
         "k_diffusive" : 1,
         "k_diffusive_reflective" : 0,
         "k_specular" : 0.8,

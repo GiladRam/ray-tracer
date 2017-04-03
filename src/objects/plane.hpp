@@ -31,4 +31,11 @@ public:
   Vector get_normal(const Vector &position, const Ray &ray) const {
     return normal;
   }
+
+  Color get_color(const Vector &position) const {
+    auto difference = position - center;
+    auto x = difference.dot(Vector(1, 0, 0));
+    auto y = difference.dot(Vector(0, 0, 1));
+    return texture->get_color(x, y);
+  }
 };
