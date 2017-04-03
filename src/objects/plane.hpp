@@ -10,7 +10,7 @@ class Plane : public Object {
 public:
   Vector point, normal;
 
-  Plane(const Vector &point, const Vector &normal, const Material &material) : Object(material) {
+  Plane(const Vector &point, const Vector &normal, const Texture &material) : Object(material) {
     this->point = point;
     this->normal = normal.normalize();
   }

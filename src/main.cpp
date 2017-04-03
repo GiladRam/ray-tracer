@@ -16,8 +16,8 @@ Vector parse_color(const json &c) {
   return Color(c[0], c[1], c[2]);
 }
 
-Material parse_material(const json &m) {
-  return Material(
+Texture parse_texture(const json &m) {
+  return Texture(
     parse_color(m["color"]),
     m["k_diffusive"],
     m["k_diffusive_reflective"],
@@ -52,20 +52,20 @@ Scene parse_scene(const json &s) {
       scene.add(new Plane(
         parse_vector(o["point"]),
         parse_vector(o["normal"]),
-        parse_material(o["material"])
+        parse_texture(o["texture"])
       ));
     } else if (o["type"] == "sphere") {
       scene.add(new Sphere(
         parse_vector(o["center"]),
         o["radius"],
-        parse_material(o["material"])
+        parse_texture(o["texture"])
       ));
     } else if (o["type"] == "polygon_mesh") {
       scene.add(new PolygonMesh(
         o["path"],
         parse_vector(o["position"]),
         o["size"],
-        parse_material(o["material"])
+        parse_texture(o["texture"])
       ));
     }
   }

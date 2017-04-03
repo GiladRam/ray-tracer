@@ -1,16 +1,16 @@
 #pragma once
 
-#include "../attributes/material.hpp"
+#include "../attributes/texture.hpp"
 #include "../libraries/vector.hpp"
 
 class Ray;
 
 class Object {
 public:
-  Material material;
+  Texture texture;
 
-  Object(const Material &material) {
-    this->material = material;
+  Object(const Texture &texture) {
+    this->texture = texture;
   }
 
   virtual float intersect(const Ray &ray) const = 0;
@@ -18,6 +18,6 @@ public:
   virtual Vector get_normal(const Vector &position, const Ray &ray) const = 0;
 
   virtual Color get_color(const Vector &position) const {
-    return material.color;
+    return texture.color;
   }
 };

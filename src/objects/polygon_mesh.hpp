@@ -12,7 +12,7 @@ private:
   std::vector<const Triangle*> objects;
 
 public:
-  PolygonMesh(const std::string &path, const Vector &position, float size, const Material &material) : Object(material) {
+  PolygonMesh(const std::string &path, const Vector &position, float size, const Texture &material) : Object(material) {
     if (path.substr(path.length() - 4) == ".obj") {
       std::ifstream ifs(path, std::ios::in);
       for (std::string buffer; ifs >> buffer; ) {

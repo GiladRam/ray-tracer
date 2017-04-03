@@ -21,7 +21,7 @@
       "type" : "plane",
       "point" : [0, 0, 0],
       "normal" : [0, 1, 0],
-      "material" : {
+      "texture" : {
         "color" : [1, 1, 1],
         "k_diffusive" : 1,
         "k_diffusive_reflective" : 0.5,
@@ -35,7 +35,7 @@
       "type" : "plane",
       "point" : [0, 0, -30],
       "normal" : [0, 0, 1],
-      "material" : {
+      "texture" : {
         "color" : [1, 0.32, 0.36],
         "k_diffusive" : 1,
         "k_diffusive_reflective" : 0.5,
