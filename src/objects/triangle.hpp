@@ -12,7 +12,7 @@ private:
 public:
   Vector pointA, pointB, pointC;
 
-  Triangle(const Vector &pointA, const Vector &pointB, const Vector &pointC, const Texture &material) : Object(material) {
+  Triangle(const Vector &pointA, const Vector &pointB, const Vector &pointC, const Material &material) : Object(material) {
     this->pointA = pointA;
     this->pointB = pointB;
     this->pointC = pointC;

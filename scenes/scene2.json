@@ -21,7 +21,7 @@
       "type" : "plane",
       "center" : [0, 0, 0],
       "normal" : [0, 1, 0],
-      "texture" : {
+      "material" : {
         "color" : [0.9, 0.72, 0.46],
         "k_diffusive" : 1,
         "k_diffusive_reflective" : 0,
@@ -35,7 +35,7 @@
       "type" : "plane",
       "center" : [0, 0, -30],
       "normal" : [0, 0, 1],
-      "texture" : {
+      "material" : {
         "color" : [0.65, 0.77, 0.97],
         "k_diffusive" : 1,
         "k_diffusive_reflective" : 0,
@@ -50,7 +50,7 @@
       "path" : "../models/teapot.obj",
       "position" : [0, 10, -10],
       "size" : 20,
-      "texture" : {
+      "material" : {
         "color" : [1, 1, 1],
         "k_diffusive" : 1,
         "k_diffusive_reflective" : 0,

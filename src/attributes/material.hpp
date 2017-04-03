@@ -2,7 +2,7 @@
 
 #include "color.hpp"
 
-class Texture {
+class Material {
 public:
   Color color;
   float k_diffusive;
@@ -12,7 +12,7 @@ public:
   float k_refractive;
   float k_refractive_index;
 
-  Texture(
+  Material(
     const Color &color = Color::ZERO,
     float k_diffusive = 1,
     float k_diffusive_reflective = 0,

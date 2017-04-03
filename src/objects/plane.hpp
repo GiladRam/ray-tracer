@@ -10,7 +10,7 @@ class Plane : public Object {
 public:
   Vector center, normal;
 
-  Plane(const Vector &center, const Vector &normal, const Texture &material) : Object(material) {
+  Plane(const Vector &center, const Vector &normal, const Material &material) : Object(material) {
     this->center = center;
     this->normal = normal.normalize();
   }
@@ -30,5 +30,9 @@ public:
 
   Vector get_normal(const Vector &position, const Ray &ray) const {
     return normal;
+  }
+
+  Color get_color(const Vector &position) const {
+    return material.color;
   }
 };

@@ -61,45 +61,45 @@ private:
     for (auto &l : lights) {
       auto illuminate = l->illuminate(point + normal * config.trace_bias, objects);
       // diffusive shading
-      if (object->texture.k_diffusive > 0) {
+      if (object->material.k_diffusive > 0) {
         auto dot = std::max(.0f, normal.dot(-illuminate.direction));
-        color += object->texture.k_diffusive * illuminate.intensity * dot;
+        color += object->material.k_diffusive * illuminate.intensity * dot;
       }
       // specular shading (phong's model)
-      if (object->texture.k_specular > 0) {
+      if (object->material.k_specular > 0) {
         auto reflective_direction = ray.direction.reflect(normal);
         auto dot = std::max(.0f, ray.direction.dot(reflective_direction));
-        color += object->texture.k_specular * illuminate.intensity * powf(dot, 20.f);
+        color += object->material.k_specular * illuminate.intensity * powf(dot, 20.f);
       }
     }
     // reflection
-    if (object->texture.k_reflective > 0) {
-      if (object->texture.k_diffusive_reflective > 0 && depth < config.diffusive_reflection_depth) {
+    if (object->material.k_reflective > 0) {
+      if (object->material.k_diffusive_reflective > 0 && depth < config.diffusive_reflection_depth) {
         auto dz = ray.direction.reflect(normal);
         auto dx = Vector(dz.z, dz.y, -dz.x);
         auto dy = dz.det(dx);
         auto sum = Color::ZERO;
         for (auto i = 0; i < config.diffusive_reflection_sample; ++i) {
-          auto len = randf() * object->texture.k_diffusive_reflective;
+          auto len = randf() * object->material.k_diffusive_reflective;
           auto angle = randf() * 2 * static_cast<float>(M_PI);
           auto x = len * cosf(angle), y = len * sinf(angle);
-          auto reflective_direction = (dz + x * dx + y * dy * object->texture.k_diffusive_reflective).normalize();
+          auto reflective_direction = (dz + x * dx + y * dy * object->material.k_diffusive_reflective).normalize();
           auto reflective_ray = Ray(point + reflective_direction * config.trace_bias, reflective_direction);
-          sum += object->texture.k_reflective * trace(reflective_ray, refractive_index, depth + 1);
+          sum += object->material.k_reflective * trace(reflective_ray, refractive_index, depth + 1);
         }
         color += sum / config.diffusive_reflection_sample;
       } else {
         auto reflective_direction = ray.direction.reflect(normal);
         auto reflective_ray = Ray(point + reflective_direction * config.trace_bias, reflective_direction);
-        color += object->texture.k_reflective * trace(reflective_ray, refractive_index, depth + 1);
+        color += object->material.k_reflective * trace(reflective_ray, refractive_index, depth + 1);
       }
     }
     // refraction
-    if (object->texture.k_refractive > 0) {
-      auto refractive_direction = ray.direction.refract(normal, refractive_index / object->texture.k_refractive_index);
+    if (object->material.k_refractive > 0) {
+      auto refractive_direction = ray.direction.refract(normal, refractive_index / object->material.k_refractive_index);
       if (refractive_direction != Vector::INVALID) {
         auto refractive_ray = Ray(point + refractive_direction * config.trace_bias, refractive_direction);
-        color += object->texture.k_refractive * trace(refractive_ray, object->texture.k_refractive_index, depth + 1);
+        color += object->material.k_refractive * trace(refractive_ray, object->material.k_refractive_index, depth + 1);
       }
     }
     return config.environment_color + color * object->get_color(point);
