@@ -50,7 +50,7 @@ Scene parse_scene(const json &s) {
   for (auto &o : s["objects"]) {
     if (o["type"] == "plane") {
       scene.add(new Plane(
-        parse_vector(o["point"]),
+        parse_vector(o["center"]),
         parse_vector(o["normal"]),
         parse_texture(o["texture"])
       ));

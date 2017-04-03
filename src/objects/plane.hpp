@@ -8,10 +8,10 @@
 
 class Plane : public Object {
 public:
-  Vector point, normal;
+  Vector center, normal;
 
-  Plane(const Vector &point, const Vector &normal, const Texture &material) : Object(material) {
-    this->point = point;
+  Plane(const Vector &center, const Vector &normal, const Texture &material) : Object(material) {
+    this->center = center;
     this->normal = normal.normalize();
   }
 
@@ -20,7 +20,7 @@ public:
     if (fabsf(denominator) < numeric_eps) {
       return std::numeric_limits<float>::max();
     }
-    auto distance = (point - ray.source).dot(normal) / denominator;
+    auto distance = (center - ray.source).dot(normal) / denominator;
     if (distance > -numeric_eps) {
       return distance;
     } else {
