@@ -11,7 +11,7 @@
 * rendering of plane, sphere and polygon mesh
 * read polygon mesh from a simple `.obj` file
 * soft shadow (area lights)
-* procedural texture
+* procedural and custom texture
 * mesh smoothing
 
 ## Usage

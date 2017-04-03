@@ -39,7 +39,7 @@
       "texture" : {
         "type" : "image_texture",
         "path" : "../resources/ground.jpg",
-        "scale" : 20,
+        "scale" : 225,
         "k_diffusive" : 1,
         "k_diffusive_reflective" : 0,
         "k_specular" : 0.8,

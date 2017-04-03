@@ -6,24 +6,20 @@
 
 class ImageTexture : public Texture {
 private:
-  int width, height;
   unsigned char *image;
+  int width, height;
   float scale;
 
 public:
   ImageTexture(const std::string &path, float scale, float k_diffusive, float k_diffusive_reflective, float k_specular, float k_reflective, float k_refractive, float k_refractive_index) : Texture(k_diffusive, k_diffusive_reflective, k_specular, k_reflective, k_refractive, k_refractive_index) {
-    int bpp;
-    image = stbi_load(path.c_str(), &width, &height, &bpp, 3);
-    scale = 255;
+    this->image = stbi_load(path.c_str(), &width, &height, nullptr, 3);
     this->scale = scale;
   }
 
   Color get_color(float x, float y) const {
-    auto int_x = static_cast<int>(round(scale * x) - height / 2);
-    auto int_y = static_cast<int>(round(scale * y) - width / 2);
-    auto xx = (int_x % height + height) % height;
-    auto yy = (int_y % width + width) % width;
-    auto pos = 3 * width * xx + 3 * yy;
-    return Color(image[pos] / 255., image[pos + 1] / 255., image[pos + 2] / 255.);
+    auto a = static_cast<int>(round(scale * x) - height / 2);
+    auto b = static_cast<int>(round(scale * y) - width / 2);
+    auto pos = 3 * width * modulo(a, height) + 3 * modulo(b, width);
+    return Color(image[pos] / 255.f, image[pos + 1] / 255.f, image[pos + 2] / 255.f);
   }
 };

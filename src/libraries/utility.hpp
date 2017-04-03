@@ -16,3 +16,7 @@ inline float clamp(float x, float l, float r) {
 inline float modulo(float x) {
   return x - std::floor(x);
 }
+
+inline int modulo(int x, int mod) {
+  return (x % mod + mod) % mod;
+}

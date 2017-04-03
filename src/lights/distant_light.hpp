@@ -3,9 +3,10 @@
 #include "light.hpp"
 
 class DistantLight : public Light {
-public:
+private:
   Vector direction;
 
+public:
   DistantLight(const Color &color, float intensity, const Vector &direction) : Light(color, intensity) {
     this->direction = direction.normalize();
   }

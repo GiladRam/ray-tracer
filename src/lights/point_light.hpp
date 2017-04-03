@@ -4,9 +4,10 @@
 #include "light.hpp"
 
 class PointLight : public Light {
-public:
+private:
   Vector position;
 
+public:
   PointLight(const Color &color, float intensity, const Vector &position) : Light(color, intensity) {
     this->position = position;
   }
