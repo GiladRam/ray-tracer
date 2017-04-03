@@ -18,29 +18,29 @@ Vector parse_color(const json &c) {
   return Color(c[0], c[1], c[2]);
 }
 
-const Texture* parse_texture(const json &m) {
-  if (m["type"] == "homo_texture") {
+const Texture* parse_texture(const json &t) {
+  if (t["type"] == "homo_texture") {
     return new HomoTexture(
-      parse_color(m["color"]),
-      m["k_diffusive"],
-      m["k_diffusive_reflective"],
-      m["k_specular"],
-      m["k_reflective"],
-      m["k_refractive"],
-      m["k_refractive_index"]
+      parse_color(t["color"]),
+      t["k_diffusive"],
+      t["k_diffusive_reflective"],
+      t["k_specular"],
+      t["k_reflective"],
+      t["k_refractive"],
+      t["k_refractive_index"]
     );
-  } else if (m["type"] == "grid_texture") {
+  } else if (t["type"] == "grid_texture") {
     return new GridTexture(
-      m["size"],
-      {parse_color(m["colors"][0]), parse_color(m["colors"][1])},
-      m["k_diffusive"],
-      m["k_diffusive_reflective"],
-      m["k_specular"],
-      m["k_reflective"],
-      m["k_refractive"],
-      m["k_refractive_index"]
+      t["size"],
+      {parse_color(t["colors"][0]), parse_color(t["colors"][1])},
+      t["k_diffusive"],
+      t["k_diffusive_reflective"],
+      t["k_specular"],
+      t["k_reflective"],
+      t["k_refractive"],
+      t["k_refractive_index"]
     );
-  } else if (m["type"] == "image_texture") {
+  } else if (t["type"] == "image_texture") {
     return nullptr;
   }
   return nullptr;
@@ -91,8 +91,8 @@ Scene parse_scene(const json &s) {
 }
 
 int main(int argc, char** argv) {
-  std::string load_path = "../scenes/scene4.json";
-  std::string dump_path = "../images/scene4.ppm";
+  std::string load_path = "../scenes/scene2.json";
+  std::string dump_path = "../images/scene2.ppm";
   if (argc > 2) {
     load_path = argv[1];
     dump_path = argv[2];
