@@ -37,4 +37,13 @@ public:
   Vector get_normal(const Vector &position, const Ray &ray) const {
     return (position - center).normalize();
   }
+
+  Color get_color(const Vector &position) const {
+    auto normal = (position - center).normalize();
+    auto x = (1 + atan2(normal.z, normal.x) / M_PI) * 0.5;
+    auto y = acosf(normal.y) / M_PI;
+    float scaleS = 20, scaleT = 20;
+    float pattern = (modulo(x * scaleS) < 0.5) ^  (modulo(y * scaleT) < 0.5);
+    return pattern * material.color;
+  }
 };

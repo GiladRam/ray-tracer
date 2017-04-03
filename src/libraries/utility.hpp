@@ -12,3 +12,7 @@ inline float randf() {
 inline float clamp(float x, float l, float r) {
   return std::min(std::max(x, l), r);
 }
+
+inline float modulo(float x) {
+  return x - std::floor(x);
+}
