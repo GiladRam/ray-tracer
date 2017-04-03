@@ -16,14 +16,8 @@ public:
   }
 
   Color get_color(float x, float y) const {
-    auto flag1 = (((int)(x / size)) & 1) == 0;
-    auto flag2 = (((int)(y / size)) & 1) == 0;
-    if (x < 0) {
-      flag1 = !flag1;
-    }
-    if (y < 0) {
-      flag2 = !flag2;
-    }
-    return (flag1 ^ flag2) ? colors[0] : colors[1];
+    auto a = (x < 0) ^ (((static_cast<int>(x / size)) & 1) == 0);
+    auto b = (y < 0) ^ (((static_cast<int>(y / size)) & 1) == 0);
+    return (a ^ b) ? colors[0] : colors[1];
   }
 };

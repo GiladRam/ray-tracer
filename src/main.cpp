@@ -40,7 +40,10 @@ const Texture* parse_texture(const json &m) {
       m["k_refractive"],
       m["k_refractive_index"]
     );
+  } else if (m["type"] == "image_texture") {
+    return nullptr;
   }
+  return nullptr;
 }
 
 Scene parse_scene(const json &s) {
@@ -67,20 +70,20 @@ Scene parse_scene(const json &s) {
       scene.add(new Plane(
         parse_vector(o["center"]),
         parse_vector(o["normal"]),
-        parse_texture(o["material"])
+        parse_texture(o["texture"])
       ));
     } else if (o["type"] == "sphere") {
       scene.add(new Sphere(
         parse_vector(o["center"]),
         o["radius"],
-        parse_texture(o["material"])
+        parse_texture(o["texture"])
       ));
     } else if (o["type"] == "polygon_mesh") {
       scene.add(new PolygonMesh(
         o["path"],
         parse_vector(o["position"]),
         o["size"],
-        parse_texture(o["material"])
+        parse_texture(o["texture"])
       ));
     }
   }

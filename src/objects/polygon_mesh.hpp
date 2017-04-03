@@ -55,7 +55,7 @@ public:
       vertex = (vertex - center) * scale + position;
     }
     for (auto &face : faces) {
-      objects.emplace_back(new Triangle(vertices[face[0]], vertices[face[1]], vertices[face[2]], texture));
+      objects.emplace_back(new Triangle({vertices[face[0]], vertices[face[1]], vertices[face[2]]}, texture));
     }
     // mesh smoothing
     if (faces.size() > 32) {
@@ -100,10 +100,10 @@ public:
     if (normals.empty()) {
       return object->normal;
     }
-    auto vectorP = ray.direction.det(object->pointC - object->pointA);
-    auto vectorT = ray.source - object->pointA;
-    auto vectorQ = vectorT.det(object->pointB - object->pointA);
-    auto det = vectorP.dot(object->pointB - object->pointA);
+    auto vectorP = ray.direction.det(object->points[2] - object->points[0]);
+    auto vectorT = ray.source - object->points[0];
+    auto vectorQ = vectorT.det(object->points[1] - object->points[0]);
+    auto det = vectorP.dot(object->points[1] - object->points[0]);
     auto u = vectorT.dot(vectorP) / det;
     auto v = ray.direction.dot(vectorQ) / det;
     return (1 - u - v) * normals[face[0]] + u * normals[face[1]] + v * normals[face[2]];

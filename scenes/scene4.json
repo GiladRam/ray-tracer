@@ -21,7 +21,7 @@
       "type" : "plane",
       "center" : [0, 0, 0],
       "normal" : [0, 1, 0],
-      "material" : {
+      "texture" : {
         "type" : "homo_texture",
         "color" : [1, 1, 1],
         "k_diffusive" : 1,
@@ -36,7 +36,7 @@
       "type" : "sphere",
       "center" : [5, 5, -15],
       "radius" : 2,
-      "material" : {
+      "texture" : {
         "type" : "grid_texture",
         "size" : 0.1,
         "colors" : [[1, 0.32, 0.36], [0, 0, 0]],
