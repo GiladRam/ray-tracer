@@ -34,6 +34,22 @@
     },
     {
       "type" : "sphere",
+      "center" : [-5, 5, -15],
+      "radius" : 3,
+      "texture" : {
+        "type" : "image_texture",
+        "path" : "../resources/ground.jpg",
+        "scale" : 20,
+        "k_diffusive" : 1,
+        "k_diffusive_reflective" : 0,
+        "k_specular" : 0.8,
+        "k_reflective" : 0.2,
+        "k_refractive" : 0,
+        "k_refractive_index" : 0
+      }
+    },
+    {
+      "type" : "sphere",
       "center" : [5, 5, -15],
       "radius" : 2,
       "texture" : {

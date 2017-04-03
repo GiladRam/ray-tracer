@@ -7,6 +7,7 @@
 #include "externals/json.hpp"
 #include "textures/homo_texture.hpp"
 #include "textures/grid_texture.hpp"
+#include "textures/image_texture.hpp"
 
 using json = nlohmann::json;
 
@@ -41,7 +42,16 @@ const Texture* parse_texture(const json &t) {
       t["k_refractive_index"]
     );
   } else if (t["type"] == "image_texture") {
-    return nullptr;
+    return new ImageTexture(
+      t["path"],
+      t["scale"],
+      t["k_diffusive"],
+      t["k_diffusive_reflective"],
+      t["k_specular"],
+      t["k_reflective"],
+      t["k_refractive"],
+      t["k_refractive_index"]
+    );
   }
   return nullptr;
 }
