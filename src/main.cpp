@@ -4,7 +4,7 @@
 #include "objects/plane.hpp"
 #include "objects/sphere.hpp"
 #include "objects/polygon_mesh.hpp"
-#include "json.hpp"
+#include "externals/json.hpp"
 #include "textures/homo_texture.hpp"
 #include "textures/grid_texture.hpp"
 
@@ -31,8 +31,8 @@ const Texture* parse_texture(const json &t) {
     );
   } else if (t["type"] == "grid_texture") {
     return new GridTexture(
-      t["size"],
       {parse_color(t["colors"][0]), parse_color(t["colors"][1])},
+      t["scale"],
       t["k_diffusive"],
       t["k_diffusive_reflective"],
       t["k_specular"],
@@ -91,8 +91,8 @@ Scene parse_scene(const json &s) {
 }
 
 int main(int argc, char** argv) {
-  std::string load_path = "../scenes/scene2.json";
-  std::string dump_path = "../images/scene2.ppm";
+  std::string load_path = "../scenes/scene4.json";
+  std::string dump_path = "../images/scene4.ppm";
   if (argc > 2) {
     load_path = argv[1];
     dump_path = argv[2];

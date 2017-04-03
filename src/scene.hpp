@@ -3,7 +3,7 @@
 #include <vector>
 #include <fstream>
 #include <iostream>
-#include "concurrentqueue.h"
+#include "externals/concurrentqueue.hpp"
 #include "camera.hpp"
 #include "lights/light.hpp"
 #include "objects/object.hpp"
