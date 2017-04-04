@@ -38,6 +38,6 @@ cmake .. && make all
 ### Polygon Mesh
 
 ### Color Bleeding
-![](https://raw.githubusercontent.com/zhijian-liu/ray-tracer/master/images/sphere-bleeding.ppm?token=AFg7pd2abVu7wHlKdqByo2bsp_M4Tkojks5Y7MypwA%3D%3D)
-![](https://raw.githubusercontent.com/zhijian-liu/ray-tracer/master/images/plane-bleeding.ppm?token=AFg7pV0NBXy56X2V50p7Hu5JTJ-t11MHks5Y7MyvwA%3D%3D)
+![](https://raw.githubusercontent.com/zhijian-liu/ray-tracer/master/images/sphere-bleeding.ppm?token=AFg7pX8h4UQTZXlV17-0hRY0Oh4VZCGrks5Y7OmCwA%3D%3D)
+![](https://raw.githubusercontent.com/zhijian-liu/ray-tracer/master/images/plane-bleeding.ppm?token=AFg7pZWaQqfyg-nGGKbHSwmk3CowFyRVks5Y7OmAwA%3D%3D)
 
