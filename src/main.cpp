@@ -102,8 +102,8 @@ Scene parse_scene(const json &s) {
 }
 
 int main(int argc, char** argv) {
-  std::string load_path = "../scenes/sphere-bleeding.json";
-  std::string dump_path = "../images/sphere-bleeding.ppm";
+  std::string load_path = "../scenes/plane-bleeding.json";
+  std::string dump_path = "../images/plane-bleeding.ppm";
   if (argc > 2) {
     load_path = argv[1];
     dump_path = argv[2];

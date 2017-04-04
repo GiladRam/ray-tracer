@@ -72,7 +72,7 @@ private:
         color += object->texture->k_specular * illuminate.intensity * powf(dot, 20.f);
       }
     }
-    // diffusive reflection (global illumination)
+    // diffusive reflection
     if (object->texture->k_diffusive_reflective > 0) {
       if (depth < config.diffusive_reflection_depth) {
         auto dz = ray.direction.reflect(normal);
