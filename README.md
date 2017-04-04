@@ -27,5 +27,5 @@ cmake .. && make all
 ## Examples
 
 ### Procedural and Custom Texture
-![](https://raw.githubusercontent.com/zhijian-liu/ray-tracer/master/images/texture.ppm)
+![](https://raw.githubusercontent.com/zhijian-liu/ray-tracer/master/images/texture.ppm?token=AFg7pQpXBas25oJ8AwoVB09d8ZEIbjHhks5Y7GxkwA%3D%3D)
 
