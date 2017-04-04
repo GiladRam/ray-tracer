@@ -64,6 +64,38 @@
         "k_refractive" : 0.5,
         "k_refractive_index" : 1.05
       }
+    },
+    {
+      "type" : "polygon_mesh",
+      "path" : "../resources/arma.obj",
+      "position" : [-10, 5, -10],
+      "size" : 10,
+      "texture" : {
+        "type" : "homo_texture",
+        "color" : [0.7, 0.7, 0.7],
+        "k_diffusive" : 1,
+        "k_diffusive_reflective" : 0,
+        "k_specular" : 0,
+        "k_reflective" : 0,
+        "k_refractive" : 0.5,
+        "k_refractive_index" : 1.05
+      }
+    },
+    {
+      "type" : "polygon_mesh",
+      "path" : "../resources/rabbit.obj",
+      "position" : [10, 5, -10],
+      "size" : 10,
+      "texture" : {
+        "type" : "homo_texture",
+        "color" : [0.7, 0.7, 0.7],
+        "k_diffusive" : 1,
+        "k_diffusive_reflective" : 0,
+        "k_specular" : 0,
+        "k_reflective" : 0,
+        "k_refractive" : 0.5,
+        "k_refractive_index" : 1.05
+      }
     }
   ]
 }
