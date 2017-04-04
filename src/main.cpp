@@ -102,17 +102,13 @@ Scene parse_scene(const json &s) {
 }
 
 int main(int argc, char** argv) {
-  std::string load_path = "../scenes/plane-bleeding.json";
-  std::string dump_path = "../images/plane-bleeding.ppm";
   if (argc > 2) {
-    load_path = argv[1];
-    dump_path = argv[2];
+    std::ifstream ifs(argv[1], std::ios::in);
+    json s;
+    ifs >> s;
+    ifs.close();
+    auto scene = parse_scene(s);
+    scene.render();
+    scene.save(argv[2]);
   }
-  std::ifstream ifs(load_path, std::ios::in);
-  json s;
-  ifs >> s;
-  ifs.close();
-  auto scene = parse_scene(s);
-  scene.render();
-  scene.save(dump_path);
 }

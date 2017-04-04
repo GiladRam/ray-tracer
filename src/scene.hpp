@@ -73,26 +73,25 @@ private:
       }
     }
     // diffusive reflection
-    if (object->texture->k_diffusive_reflective > 0) {
-      if (depth < config.diffusive_reflection_depth) {
-        auto dz = ray.direction.reflect(normal);
-        auto dx = Vector(dz.z, dz.y, -dz.x);
-        auto dy = dz.det(dx);
-        auto sum = Color::ZERO;
-        for (auto i = 0; i < config.diffusive_reflection_sample; ++i) {
-          auto len = randf() * object->texture->k_diffusive_reflective;
-          auto angle = randf() * 2 * static_cast<float>(M_PI);
-          auto x = len * cosf(angle), y = len * sinf(angle);
-          auto reflective_direction = (dz + x * dx + y * dy * object->texture->k_diffusive_reflective).normalize();
-          auto reflective_ray = Ray(point + reflective_direction * config.trace_bias, reflective_direction);
-          sum += object->texture->k_diffusive_reflective * trace(reflective_ray, refractive_index, depth + 1);
-        }
-        color += sum / config.diffusive_reflection_sample;
-      } else {
-        auto reflective_direction = ray.direction.reflect(normal);
+    if (object->texture->k_diffusive_reflective > 0 && depth < config.diffusive_reflection_depth) {
+      auto dy = normal;
+      auto dx = (fabsf(dy.x) > fabsf(dy.y) ? Vector(dy.z, 0, -dy.x) : Vector(0, -dy.z, dy.y)).normalize();
+      auto dz = dy.det(dx).normalize();
+      auto sum = Color::ZERO;
+      for (auto i = 0; i < config.diffusive_reflection_sample; ++i) {
+        auto cos = randf();
+        auto sin = sqrtf(1 - cos * cos);
+        auto phi = randf() * 2 * numeric_pi;
+        auto rotate = Vector(sin * cosf(phi), cos, sin * sinf(phi));
+        auto reflective_direction = Vector(
+          rotate.x * dx.x + rotate.y * dy.x + rotate.z * dz.x,
+          rotate.x * dx.y + rotate.y * dy.y + rotate.z * dz.y,
+          rotate.x * dx.z + rotate.y * dy.z + rotate.z * dz.z
+        ).normalize();
         auto reflective_ray = Ray(point + reflective_direction * config.trace_bias, reflective_direction);
-        color += object->texture->k_diffusive_reflective * trace(reflective_ray, refractive_index, depth + 1);
+        sum += object->texture->k_diffusive_reflective * trace(reflective_ray, refractive_index, depth + 1);
       }
+      color += sum / config.diffusive_reflection_sample;
     }
     // reflection
     if (object->texture->k_reflective > 0) {

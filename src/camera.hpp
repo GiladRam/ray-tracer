@@ -17,7 +17,7 @@ public:
     this->width = width;
     this->height = height;
     this->field = field;
-    this->angle = tanf(field * .5f * static_cast<float>(M_PI) / 180);
+    this->angle = tanf(field * .5f * numeric_pi / 180);
     this->ratio = static_cast<float>(width) / height;
   }
 

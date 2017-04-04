@@ -24,7 +24,7 @@ public:
     if (ray.intersect(objects) < distance + numeric_eps) {
       return {.direction = Vector::ZERO, .intensity = Color::ZERO};
     }
-    auto intensity = this->color * this->intensity / (4 * M_PI * distance * distance);
+    auto intensity = this->color * this->intensity / (4 * numeric_pi * distance * distance);
     return {.direction = direction.normalize(), .intensity = intensity};
   }
 };

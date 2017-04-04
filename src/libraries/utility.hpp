@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include <algorithm>
 
+const float numeric_pi = acosf(-1.f);
 const float numeric_eps = 1e-8;
 
 inline float randf() {
