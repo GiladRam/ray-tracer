@@ -27,7 +27,14 @@ cmake .. && make all
 ## Examples
 
 ### Procedural and Custom Texture
-![](https://raw.githubusercontent.com/zhijian-liu/ray-tracer/master/images/texture.ppm?token=AFg7pQpXBas25oJ8AwoVB09d8ZEIbjHhks5Y7GxkwA%3D%3D)
+![](https://raw.githubusercontent.com/zhijian-liu/ray-tracer/master/images/texture.ppm?token=AFg7pVeGzE6vHhxvi03-9AaBNGDHQwH1ks5Y7I-fwA%3D%3D)
 
 ### Transparency (Refraction)
-![](https://raw.githubusercontent.com/zhijian-liu/ray-tracer/master/images/transparent.ppm?token=AFg7pWcvvLV9s3_erDZZQKTkY2Oc64tYks5Y7II9wA%3D%3D)
+![](https://raw.githubusercontent.com/zhijian-liu/ray-tracer/master/images/transparency.ppm?token=AFg7pUHTkBg7N22VosFDAC0Y5MFnflzjks5Y7I-4wA%3D%3D)
+![](https://raw.githubusercontent.com/zhijian-liu/ray-tracer/master/images/refraction.ppm?token=AFg7pdFSghDaS4idWkg84B3numM0SBF0ks5Y7I_rwA%3D%3D)
+
+### Polygon Mesh
+
+### Color Bleeding (Global Illumination)
+
+
