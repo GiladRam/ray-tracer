@@ -7,11 +7,10 @@ class Triangle : public Object {
 friend class PolygonMesh;
 
 private:
+  std::vector<Vector> points;
   Vector normal;
 
 public:
-  std::vector<Vector> points;
-
   Triangle(const std::vector<Vector> &points, const Texture *texture) : Object(texture) {
     this->points = points;
     this->normal = (points[1] - points[0]).det(points[2] - points[0]).normalize();

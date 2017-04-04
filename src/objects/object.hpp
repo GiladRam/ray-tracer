@@ -10,7 +10,7 @@ class Object {
 public:
   const Texture* texture;
 
-  Object(const Texture *texture) {
+  Object(const Texture* texture) {
     this->texture = texture;
   }
 

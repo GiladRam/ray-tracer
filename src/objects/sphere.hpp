@@ -11,7 +11,6 @@ private:
   std::vector<Vector> axes;
 
 public:
-
   Sphere(const Vector &center, float radius, const std::vector<Vector> &axes, const Texture *texture) : Object(texture) {
     this->center = center;
     this->radius = radius;

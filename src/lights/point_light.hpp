@@ -13,7 +13,7 @@ public:
   }
 
   float intersect(const Ray &ray) const {
-    // fixme: correct intersection
+    // fixme: wrong intersection
     return std::numeric_limits<float>::max();
   };
 

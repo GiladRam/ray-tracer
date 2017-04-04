@@ -5,11 +5,10 @@
 
 class BoxLight : public Light {
 private:
+  Vector position, size;
   std::vector<const PointLight*> lights;
 
 public:
-  Vector position, size;
-
   BoxLight(const Color &color, float intensity, const Vector &position, const Vector &size, int sample = 16) : Light(color, intensity) {
     this->position = position;
     this->size = size;
