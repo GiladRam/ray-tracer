@@ -5,13 +5,19 @@
 #include "../libraries/ray.hpp"
 
 class Sphere : public Object {
-public:
+private:
   Vector center;
   float radius;
+  std::vector<Vector> axes;
 
-  Sphere(const Vector &center, float radius, const Texture *texture) : Object(texture) {
+public:
+
+  Sphere(const Vector &center, float radius, const std::vector<Vector> &axes, const Texture *texture) : Object(texture) {
     this->center = center;
     this->radius = radius;
+    this->axes.emplace_back(axes[0].normalize());
+    this->axes.emplace_back(axes[1].normalize());
+    this->axes.emplace_back(axes[0].det(axes[1]).normalize());
   }
 
   float intersect(const Ray &ray) const {
@@ -40,8 +46,11 @@ public:
 
   Color get_color(const Vector &position) const {
     auto normal = (position - center).normalize();
-    auto x = (1 + atan2f(normal.z, normal.x) / static_cast<float>(M_PI)) * .5f;
-    auto y = acosf(normal.y) / static_cast<float>(M_PI);
+    auto a = normal.dot(axes[0]);
+    auto b = normal.dot(axes[1]);
+    auto c = normal.dot(axes[2]);
+    auto x = acosf(c) / static_cast<float>(M_PI);
+    auto y = (1 + atan2f(a, b) / static_cast<float>(M_PI)) * .5f;
     return texture->get_color(x, y);
   }
 };

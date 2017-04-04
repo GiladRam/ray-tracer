@@ -86,6 +86,7 @@ Scene parse_scene(const json &s) {
       scene.add(new Sphere(
         parse_vector(o["center"]),
         o["radius"],
+        {parse_vector(o["axes"][0]), parse_vector(o["axes"][1])},
         parse_texture(o["texture"])
       ));
     } else if (o["type"] == "polygon_mesh") {
@@ -101,8 +102,8 @@ Scene parse_scene(const json &s) {
 }
 
 int main(int argc, char** argv) {
-  std::string load_path = "../scenes/scene4.json";
-  std::string dump_path = "../images/scene4.ppm";
+  std::string load_path = "../scenes/texture.json";
+  std::string dump_path = "../images/texture.ppm";
   if (argc > 2) {
     load_path = argv[1];
     dump_path = argv[2];

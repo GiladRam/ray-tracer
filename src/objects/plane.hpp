@@ -8,24 +8,23 @@
 
 class Plane : public Object {
 private:
-  Vector normal;
-
-public:
   Vector center;
   std::vector<Vector> axes;
 
+public:
   Plane(const Vector &center, const std::vector<Vector> &axes, const Texture *texture) : Object(texture) {
     this->center = center;
-    this->axes = {axes[0].normalize(), axes[1].normalize()};
-    this->normal = axes[0].det(axes[1]).normalize();
+    this->axes.emplace_back(axes[0].normalize());
+    this->axes.emplace_back(axes[1].normalize());
+    this->axes.emplace_back(axes[0].det(axes[1]).normalize());
   }
 
   float intersect(const Ray &ray) const {
-    auto denominator = normal.dot(ray.direction);
+    auto denominator = axes[2].dot(ray.direction);
     if (fabsf(denominator) < numeric_eps) {
       return std::numeric_limits<float>::max();
     }
-    auto distance = (center - ray.source).dot(normal) / denominator;
+    auto distance = (center - ray.source).dot(axes[2]) / denominator;
     if (distance > -numeric_eps) {
       return distance;
     } else {
@@ -34,7 +33,7 @@ public:
   }
 
   Vector get_normal(const Vector &position, const Ray &ray) const {
-    return normal;
+    return axes[2];
   }
 
   Color get_color(const Vector &position) const {
