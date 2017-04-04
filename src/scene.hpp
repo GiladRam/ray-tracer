@@ -17,7 +17,7 @@ public:
     int trace_depth = 3;
     float trace_bias = 1e-4;
     int diffusive_reflection_depth = 2;
-    int diffusive_reflection_sample = 32;
+    int diffusive_reflection_sample = 1024;
     int thread_worker = std::thread::hardware_concurrency();
     Color environment_color = Color::GRAY;
   } config;
