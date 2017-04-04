@@ -28,7 +28,7 @@
         "k_diffusive" : 1,
         "k_diffusive_reflective" : 0,
         "k_specular" : 0.8,
-        "k_reflective" : 0.2,
+        "k_reflective" : 0,
         "k_refractive" : 0,
         "k_refractive_index" : 0
       }

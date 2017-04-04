@@ -102,8 +102,8 @@ Scene parse_scene(const json &s) {
 }
 
 int main(int argc, char** argv) {
-  std::string load_path = "../scenes/transparent.json";
-  std::string dump_path = "../images/transparent.ppm";
+  std::string load_path = "../scenes/refraction.json";
+  std::string dump_path = "../images/refraction.ppm";
   if (argc > 2) {
     load_path = argv[1];
     dump_path = argv[2];
