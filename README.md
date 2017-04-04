@@ -30,4 +30,4 @@ cmake .. && make all
 ![](https://raw.githubusercontent.com/zhijian-liu/ray-tracer/master/images/texture.ppm?token=AFg7pQpXBas25oJ8AwoVB09d8ZEIbjHhks5Y7GxkwA%3D%3D)
 
 ### Transparency (Refraction)
-![]()
+![](https://raw.githubusercontent.com/zhijian-liu/ray-tracer/master/images/transparent.ppm?token=AFg7pWcvvLV9s3_erDZZQKTkY2Oc64tYks5Y7II9wA%3D%3D)
