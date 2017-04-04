@@ -109,6 +109,7 @@ public:
     if (distance == std::numeric_limits<float>::max()) {
       return distance;
     }
+    distance = std::numeric_limits<float>::max();
     for (auto &object : objects) {
       auto length = object->intersect(ray);
       if (length < distance) {

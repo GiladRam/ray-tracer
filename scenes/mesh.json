@@ -51,12 +51,12 @@
     },
     {
       "type" : "polygon_mesh",
-      "path" : "../resources/teapot.obj",
-      "position" : [0, 10, -10],
+      "path" : "../resources/horse.obj",
+      "position" : [0, 5, -10],
       "size" : 10,
       "texture" : {
         "type" : "homo_texture",
-        "color" : [0, 0, 0],
+        "color" : [0.7, 0.7, 0.7],
         "k_diffusive" : 1,
         "k_diffusive_reflective" : 0,
         "k_specular" : 0,
