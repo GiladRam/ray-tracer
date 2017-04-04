@@ -108,4 +108,9 @@ public:
     auto v = ray.direction.dot(vectorQ) / det;
     return (1 - u - v) * normals[face[0]] + u * normals[face[1]] + v * normals[face[2]];
   }
+
+  Color get_color(const Vector &position) const {
+    // fixme: calculate the texture coordinate for polygon mesh
+    return texture->get_color(0, 0);
+  }
 };

@@ -12,6 +12,11 @@ public:
     this->position = position;
   }
 
+  float intersect(const Ray &ray) const {
+    // fixme: correct intersection
+    return std::numeric_limits<float>::max();
+  };
+
   IlluminateResult illuminate(const Vector &position, const std::vector<const Object*> &objects) const {
     auto direction = position - this->position;
     auto ray = Ray(position, -direction);

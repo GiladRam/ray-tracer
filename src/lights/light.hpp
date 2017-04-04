@@ -13,9 +13,7 @@ public:
     this->intensity = intensity;
   }
 
-  virtual float intersect(const Ray &ray) const {
-    return std::numeric_limits<float>::max();
-  };
+  virtual float intersect(const Ray &ray) const = 0;
 
   struct IlluminateResult {
     Vector direction;

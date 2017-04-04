@@ -43,4 +43,9 @@ public:
   Vector get_normal(const Vector &position, const Ray &ray) const {
     return normal;
   }
+
+  Color get_color(const Vector &position) const {
+    // fixme: calculate the texture coordinate for triangle
+    return texture->get_color(0, 0);
+  }
 };

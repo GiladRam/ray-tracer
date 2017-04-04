@@ -18,7 +18,5 @@ public:
 
   virtual Vector get_normal(const Vector &position, const Ray &ray) const = 0;
 
-  virtual Color get_color(const Vector &position) const {
-    return texture->get_color(0, 0);
-  }
+  virtual Color get_color(const Vector &position) const = 0;
 };

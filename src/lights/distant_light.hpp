@@ -11,6 +11,10 @@ public:
     this->direction = direction.normalize();
   }
 
+  float intersect(const Ray &ray) const {
+    return std::numeric_limits<float>::max();
+  };
+
   IlluminateResult illuminate(const Vector &position, const std::vector<const Object*> &objects) const {
     auto ray = Ray(position, -direction);
     if (ray.intersect(objects) < std::numeric_limits<float>::max()) {

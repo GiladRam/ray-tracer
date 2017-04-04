@@ -10,7 +10,7 @@
     {
       "type" : "box_light",
       "color" : [1, 1, 1],
-      "intensity" : 3000,
+      "intensity" : 5000,
       "position" : [-10, 20, -20],
       "size" : [20, 0.5, 20]
     }
@@ -20,10 +20,11 @@
     {
       "type" : "plane",
       "center" : [0, 0, 0],
-      "normal" : [0, 1, 0],
+      "axes" : [[1, 0, 0], [0, 0, -1]],
       "texture" : {
-        "type" : "homo_texture",
-        "color" : [0.9, 0.72, 0.46],
+        "type" : "image_texture",
+        "path" : "../resources/ground.jpg",
+        "scale" : 20,
         "k_diffusive" : 1,
         "k_diffusive_reflective" : 0,
         "k_specular" : 0.8,
@@ -35,32 +36,33 @@
     {
       "type" : "plane",
       "center" : [0, 0, -30],
-      "normal" : [0, 0, 1],
+      "axes" : [[0, 1, 0], [-1, 0, 0]],
       "texture" : {
-        "type" : "homo_texture",
-        "color" : [0.65, 0.77, 0.97],
+        "type" : "grid_texture",
+        "colors" : [[1, 1, 1], [0.2, 0.2, 0.2]],
+        "scale" : 0.1,
         "k_diffusive" : 1,
         "k_diffusive_reflective" : 0,
         "k_specular" : 0.8,
-        "k_reflective" : 0,
+        "k_reflective" : 0.5,
         "k_refractive" : 0,
         "k_refractive_index" : 0
       }
     },
     {
       "type" : "polygon_mesh",
-      "path" : "../models/cube.obj",
+      "path" : "../resources/teapot.obj",
       "position" : [0, 10, -10],
       "size" : 10,
       "texture" : {
         "type" : "homo_texture",
-        "color" : [1, 1, 1],
+        "color" : [0, 0, 0],
         "k_diffusive" : 1,
         "k_diffusive_reflective" : 0,
         "k_specular" : 0,
         "k_reflective" : 0,
-        "k_refractive" : 0,
-        "k_refractive_index" : 0
+        "k_refractive" : 0.5,
+        "k_refractive_index" : 1.05
       }
     }
   ]
