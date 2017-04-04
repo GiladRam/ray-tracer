@@ -79,7 +79,7 @@ Scene parse_scene(const json &s) {
     if (o["type"] == "plane") {
       scene.add(new Plane(
         parse_vector(o["center"]),
-        parse_vector(o["normal"]),
+        {parse_vector(o["axes"][0]), parse_vector(o["axes"][1])},
         parse_texture(o["texture"])
       ));
     } else if (o["type"] == "sphere") {

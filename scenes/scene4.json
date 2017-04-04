@@ -20,7 +20,7 @@
     {
       "type" : "plane",
       "center" : [0, 0, 0],
-      "normal" : [0, 1, 0],
+      "axes" : [[1, 0, 0], [0, 0, -1]],
       "texture" : {
         "type" : "image_texture",
         "path" : "../resources/ground.jpg",
@@ -29,6 +29,21 @@
         "k_diffusive_reflective" : 0,
         "k_specular" : 0.8,
         "k_reflective" : 0.5,
+        "k_refractive" : 0,
+        "k_refractive_index" : 0
+      }
+    },
+    {
+      "type" : "plane",
+      "center" : [0, 0, -30],
+      "axes" : [[0, 1, 0], [-1, 0, 0]],
+      "texture" : {
+        "type" : "homo_texture",
+        "color" : [1, 1, 1],
+        "k_diffusive" : 0,
+        "k_diffusive_reflective" : 0,
+        "k_specular" : 0,
+        "k_reflective" : 1,
         "k_refractive" : 0,
         "k_refractive_index" : 0
       }

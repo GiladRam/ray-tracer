@@ -7,12 +7,17 @@
 #include "../libraries/ray.hpp"
 
 class Plane : public Object {
-public:
-  Vector center, normal;
+private:
+  Vector normal;
 
-  Plane(const Vector &center, const Vector &normal, const Texture *texture) : Object(texture) {
+public:
+  Vector center;
+  std::vector<Vector> axes;
+
+  Plane(const Vector &center, const std::vector<Vector> &axes, const Texture *texture) : Object(texture) {
     this->center = center;
-    this->normal = normal.normalize();
+    this->axes = {axes[0].normalize(), axes[1].normalize()};
+    this->normal = axes[0].det(axes[1]).normalize();
   }
 
   float intersect(const Ray &ray) const {
@@ -34,8 +39,8 @@ public:
 
   Color get_color(const Vector &position) const {
     auto difference = position - center;
-    auto x = difference.dot(Vector(1, 0, 0));
-    auto y = difference.dot(Vector(0, 0, 1));
+    auto x = difference.dot(axes[0]);
+    auto y = difference.dot(axes[1]);
     return texture->get_color(x, y);
   }
 };
