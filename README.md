@@ -25,5 +25,7 @@ mkdir bin/ && cd bin/
 cmake .. && make all
 ```
 ## Examples
+* procedural and custom texture
 
+![](https://raw.githubusercontent.com/zhijian-liu/ray-tracer/master/images/texture.ppm?token=AFg7pQpXBas25oJ8AwoVB09d8ZEIbjHhks5Y7GxkwA%3D%3D)
 
