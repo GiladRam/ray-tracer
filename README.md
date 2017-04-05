@@ -32,15 +32,15 @@ cmake .. && make all
 ![](https://raw.githubusercontent.com/zhijian-liu/ray-tracer/master/images/mesh.ppm?token=AFg7pV3xTZX2tQGvdtCeE8_Y_Sh5q2uwks5Y7XSnwA%3D%3D)
 
 ### Procedural and Custom Texture
-![](https://raw.githubusercontent.com/zhijian-liu/ray-tracer/master/images/texture.ppm?token=AFg7pVeGzE6vHhxvi03-9AaBNGDHQwH1ks5Y7I-fwA%3D%3D)
+![](https://raw.githubusercontent.com/zhijian-liu/ray-tracer/master/images/texture.png?token=AFg7pU2Byriy1aq_iKS6rzPu3nj5hjdHks5Y7dcbwA%3D%3D)
 
 ### Transparency
-![](https://raw.githubusercontent.com/zhijian-liu/ray-tracer/master/images/transparency.ppm?token=AFg7pUHTkBg7N22VosFDAC0Y5MFnflzjks5Y7I-4wA%3D%3D)
+![](https://raw.githubusercontent.com/zhijian-liu/ray-tracer/master/images/transparency.png?token=AFg7pQbDaRErdzj_H-w_htaiA7k82zvhks5Y7deGwA%3D%3D)
 
 ### Refraction
-![](https://raw.githubusercontent.com/zhijian-liu/ray-tracer/master/images/refraction.ppm?token=AFg7pdFSghDaS4idWkg84B3numM0SBF0ks5Y7I_rwA%3D%3D)
+![](https://raw.githubusercontent.com/zhijian-liu/ray-tracer/master/images/refraction.png?token=AFg7pfgtsNps7IKnm01yuNhUW6A1SxsVks5Y7deKwA%3D%3D)
 
 ### Color Bleeding
-![](https://raw.githubusercontent.com/zhijian-liu/ray-tracer/master/images/sphere-bleeding.ppm?token=AFg7pX8h4UQTZXlV17-0hRY0Oh4VZCGrks5Y7OmCwA%3D%3D)
-![](https://raw.githubusercontent.com/zhijian-liu/ray-tracer/master/images/plane-bleeding.ppm?token=AFg7pZWaQqfyg-nGGKbHSwmk3CowFyRVks5Y7OmAwA%3D%3D)
+![](https://raw.githubusercontent.com/zhijian-liu/ray-tracer/master/images/sphere-bleeding.png?token=AFg7pfCouP7DkGDPfERG-Sk7LgATaI0Gks5Y7deLwA%3D%3D)
+![](https://raw.githubusercontent.com/zhijian-liu/ray-tracer/master/images/plane-bleeding.png?token=AFg7pT20KmuMc_LIJeiAvNxdEQy-AZ61ks5Y7deMwA%3D%3D)
 
