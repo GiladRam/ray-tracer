@@ -26,10 +26,16 @@
 mkdir bin/ && cd bin/
 cmake .. && make all
 ```
+
+### Render
+```
+./ray-tracer <input-scene-path> <output-image-path>
+```
+
 ## Examples
 
 ### Polygon Mesh
-![](https://raw.githubusercontent.com/zhijian-liu/ray-tracer/master/images/mesh.ppm?token=AFg7pV3xTZX2tQGvdtCeE8_Y_Sh5q2uwks5Y7XSnwA%3D%3D)
+![](https://raw.githubusercontent.com/zhijian-liu/ray-tracer/master/images/mesh.png?token=AFg7pXpXn6uAR-L5a7T5GReCxJ6ye3izks5Y7feVwA%3D%3D)
 
 ### Procedural and Custom Texture
 ![](https://raw.githubusercontent.com/zhijian-liu/ray-tracer/master/images/texture.png?token=AFg7pU2Byriy1aq_iKS6rzPu3nj5hjdHks5Y7dcbwA%3D%3D)
@@ -43,4 +49,6 @@ cmake .. && make all
 ### Color Bleeding
 ![](https://raw.githubusercontent.com/zhijian-liu/ray-tracer/master/images/sphere-bleeding.png?token=AFg7pfCouP7DkGDPfERG-Sk7LgATaI0Gks5Y7deLwA%3D%3D)
 ![](https://raw.githubusercontent.com/zhijian-liu/ray-tracer/master/images/plane-bleeding.png?token=AFg7pT20KmuMc_LIJeiAvNxdEQy-AZ61ks5Y7deMwA%3D%3D)
+
+## Acknowledgements
 
