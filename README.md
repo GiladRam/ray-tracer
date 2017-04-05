@@ -17,7 +17,8 @@
 ## Usage
 
 ### Dependencies
-* `CMake >= 3.5`
+* `gcc >= 4.8`
+* `cmake >= 3.5`
 
 ### Compile
 ```
