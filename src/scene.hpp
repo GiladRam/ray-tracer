@@ -34,12 +34,14 @@ private:
       return config.environment_color;
     }
     auto distance = std::numeric_limits<float>::max();
+    auto intersection = Intersection::MISS;
     const Object* object = nullptr;
     const Light* light = nullptr;
     for (auto &o : objects) {
-      auto length = o->intersect(ray);
-      if (length < distance) {
-        distance = length;
+      auto result = o->intersect(ray);
+      if (result.distance < distance) {
+        distance = result.distance;
+        intersection = result;
         object = o;
       }
     }
@@ -56,21 +58,21 @@ private:
     if (object == nullptr) {
       return config.environment_color;
     }
+    intersection.position = ray.source + ray.direction * distance;
     auto color = Color::ZERO;
-    auto point = ray.source + ray.direction * distance;
-    auto normal = object->get_normal(point, ray);
+    auto normal = object->get_normal(ray, intersection);
     for (auto &l : lights) {
-      auto illuminate = l->illuminate(point + normal * config.trace_bias, objects);
+      auto illumination = l->illuminate(intersection.position + normal * config.trace_bias, objects);
       // diffusive shading
       if (object->texture->k_diffusive > 0) {
-        auto dot = std::max(.0f, normal.dot(-illuminate.direction));
-        color += object->texture->k_diffusive * illuminate.intensity * dot;
+        auto dot = std::max(.0f, normal.dot(-illumination.direction));
+        color += object->texture->k_diffusive * illumination.intensity * dot;
       }
       // specular shading (phong's model)
       if (object->texture->k_specular > 0) {
         auto reflective_direction = ray.direction.reflect(normal);
         auto dot = std::max(.0f, ray.direction.dot(reflective_direction));
-        color += object->texture->k_specular * illuminate.intensity * powf(dot, 20.f);
+        color += object->texture->k_specular * illumination.intensity * powf(dot, 20.f);
       }
     }
     // diffusive reflection
@@ -89,7 +91,7 @@ private:
           rotate.x * dx.y + rotate.y * dy.y + rotate.z * dz.y,
           rotate.x * dx.z + rotate.y * dy.z + rotate.z * dz.z
         ).normalize();
-        auto reflective_ray = Ray(point + reflective_direction * config.trace_bias, reflective_direction);
+        auto reflective_ray = Ray(intersection.position + reflective_direction * config.trace_bias, reflective_direction);
         sum += object->texture->k_diffusive_reflective * trace(reflective_ray, refractive_index, depth + 1);
       }
       color += sum / config.diffusive_reflection_sample;
@@ -97,18 +99,18 @@ private:
     // reflection
     if (object->texture->k_reflective > 0) {
       auto reflective_direction = ray.direction.reflect(normal);
-      auto reflective_ray = Ray(point + reflective_direction * config.trace_bias, reflective_direction);
+      auto reflective_ray = Ray(intersection.position + reflective_direction * config.trace_bias, reflective_direction);
       color += object->texture->k_reflective * trace(reflective_ray, refractive_index, depth + 1);
     }
     // refraction
     if (object->texture->k_refractive > 0) {
       auto refractive_direction = ray.direction.refract(normal, refractive_index / object->texture->k_refractive_index);
       if (refractive_direction != Vector::INVALID) {
-        auto refractive_ray = Ray(point + refractive_direction * config.trace_bias, refractive_direction);
+        auto refractive_ray = Ray(intersection.position + refractive_direction * config.trace_bias, refractive_direction);
         color += object->texture->k_refractive * trace(refractive_ray, object->texture->k_refractive_index, depth + 1);
       }
     }
-    return config.environment_color + color * object->get_color(point);
+    return config.environment_color + color * object->get_color(intersection.position);
   }
 
 public:

@@ -14,13 +14,13 @@ public:
   }
 
   float intersect(const std::vector<const Object*> &objects) const {
-    auto distance = std::numeric_limits<float>::max();
+    auto intersection = Intersection::MISS;
     for (auto &object : objects) {
-      auto length = object->intersect(*this);
-      if (length < distance) {
-        distance = length;
+      auto result = object->intersect(*this);
+      if (result < intersection) {
+        intersection = result;
       }
     }
-    return distance;
+    return intersection.distance;
   }
 };

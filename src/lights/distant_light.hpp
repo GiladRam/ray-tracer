@@ -15,7 +15,7 @@ public:
     return std::numeric_limits<float>::max();
   };
 
-  IlluminateResult illuminate(const Vector &position, const std::vector<const Object*> &objects) const {
+  Illumination illuminate(const Vector &position, const std::vector<const Object*> &objects) const {
     auto ray = Ray(position, -direction);
     if (ray.intersect(objects) < std::numeric_limits<float>::max()) {
       return {.direction = direction, .intensity = color * intensity};

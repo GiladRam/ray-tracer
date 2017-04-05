@@ -17,7 +17,7 @@ public:
     return std::numeric_limits<float>::max();
   };
 
-  IlluminateResult illuminate(const Vector &position, const std::vector<const Object*> &objects) const {
+  Illumination illuminate(const Vector &position, const std::vector<const Object*> &objects) const {
     auto direction = position - this->position;
     auto ray = Ray(position, -direction);
     auto distance = direction.length();

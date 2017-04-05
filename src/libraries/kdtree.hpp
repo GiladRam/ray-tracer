@@ -74,7 +74,7 @@ private:
     return node;
   }
 
-  float intersect(const Ray &ray, KDNode* node, float threshold, int depth) const {
+  Intersection intersect(const Ray &ray, KDNode* node, Intersection intersection, int depth) const {
     auto d = ray.direction, s = ray.source;
     auto p1 = node->corners[0], p2 = node->corners[1];
     float distances[] = {
@@ -85,7 +85,7 @@ private:
       d.z ? (p1.z - s.z) / d.z : 0,
       d.z ? (p2.z - s.z) / d.z : 0
     };
-    auto length = std::numeric_limits<float>::max();
+    auto distance = std::numeric_limits<float>::max();
     for (auto i = 0; i < 6; ++i) {
       if (distances[i] == 0) {
         continue;
@@ -100,32 +100,32 @@ private:
       if (p.z < p1.z - numeric_eps || p.z > p2.z + numeric_eps) {
         continue;
       }
-      if (distances[i] < length) {
-        length = distances[i];
+      if (distances[i] < distance) {
+        distance = distances[i];
       }
     }
-    if (length >= threshold) {
-      return threshold;
+    if (distance >= intersection.distance) {
+      return Intersection::MISS;
     }
-    auto distance = threshold;
     if (node->child[0] && node->child[1]) {
-      auto point = ray.source + distance * ray.direction;
+      auto point = ray.source + intersection.distance * ray.direction;
       auto prefer = point[node->axis] <= node->pivot ? 0 : 1;
       for (auto i : {prefer, prefer ^ 1}) {
-        auto length = intersect(ray, node->child[i], distance, depth + 1);
-        if (length < distance) {
-          distance = length;
+        auto result = intersect(ray, node->child[i], intersection, depth + 1);
+        if (result < intersection) {
+          intersection = result;
         }
       }
     } else {
       for (auto &object : node->objects) {
-        auto length = object->intersect(ray);
-        if (length < distance) {
-          distance = length;
+        auto result = object->intersect(ray);
+        if (result < intersection) {
+          intersection = result;
+          intersection.object = object;
         }
       }
     }
-    return distance;
+    return intersection;
   }
 
 public:
@@ -137,7 +137,7 @@ public:
     delete root;
   }
 
-  float intersect(const Ray &ray) const {
-    return intersect(ray, root, std::numeric_limits<float>::max(), 0);
+  Intersection intersect(const Ray &ray) const {
+    return intersect(ray, root, Intersection::MISS, 0);
   }
 };

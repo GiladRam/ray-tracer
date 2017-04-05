@@ -81,18 +81,17 @@ public:
     delete tree;
   }
 
-  float intersect(const Ray &ray) const {
+  Intersection intersect(const Ray &ray) const {
     return tree->intersect(ray);
   }
 
-  Vector get_normal(const Vector &position, const Ray &ray) const {
+  Vector get_normal(const Ray &ray, const Intersection &intersection) const {
     auto index = 0;
     auto distance = std::numeric_limits<float>::max();
     for (auto i = 0; i < faces.size(); ++i) {
-      auto length = objects[i]->intersect(ray);
-      if (length < distance) {
-        distance = length;
+      if (objects[i] == intersection.object) {
         index = i;
+        break;
       }
     }
     auto face = faces[index];

@@ -53,7 +53,7 @@ public:
     return distance;
   };
 
-  IlluminateResult illuminate(const Vector &position, const std::vector<const Object*> &objects) const {
+  Illumination illuminate(const Vector &position, const std::vector<const Object*> &objects) const {
     auto direction = Vector::ZERO;
     auto intensity = Color::ZERO;
     for (auto &light : lights) {

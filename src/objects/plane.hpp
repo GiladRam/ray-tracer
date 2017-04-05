@@ -19,20 +19,20 @@ public:
     this->axes.emplace_back(axes[0].det(axes[1]).normalize());
   }
 
-  float intersect(const Ray &ray) const {
+  Intersection intersect(const Ray &ray) const {
     auto denominator = axes[2].dot(ray.direction);
     if (fabsf(denominator) < numeric_eps) {
-      return std::numeric_limits<float>::max();
+      return Intersection::MISS;
     }
     auto distance = (center - ray.source).dot(axes[2]) / denominator;
     if (distance > -numeric_eps) {
-      return distance;
+      return {.distance = distance};
     } else {
-      return std::numeric_limits<float>::max();
+      return Intersection::MISS;
     }
   }
 
-  Vector get_normal(const Vector &position, const Ray &ray) const {
+  Vector get_normal(const Ray &ray, const Intersection &intersection) const {
     return axes[2];
   }
 

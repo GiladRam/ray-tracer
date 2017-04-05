@@ -19,28 +19,28 @@ public:
     this->axes.emplace_back(axes[0].det(axes[1]).normalize());
   }
 
-  float intersect(const Ray &ray) const {
+  Intersection intersect(const Ray &ray) const {
     auto v = center - ray.source;
     auto tca = v.dot(ray.direction);
     if (tca < -numeric_eps) {
-      return std::numeric_limits<float>::max();
+      return Intersection::MISS;
     }
     auto d2 = radius * radius - v.dot(v) + tca * tca;
     if (d2 < -numeric_eps) {
-      return std::numeric_limits<float>::max();
+      return Intersection::MISS;
     }
     auto thc = sqrtf(d2);
     auto t0 = tca - thc;
     auto t1 = tca + thc;
     if (t0 > numeric_eps) {
-      return t0;
+      return {.distance = t0};
     } else {
-      return t1;
+      return {.distance = t1};
     }
   }
 
-  Vector get_normal(const Vector &position, const Ray &ray) const {
-    return (position - center).normalize();
+  Vector get_normal(const Ray &ray, const Intersection &intersection) const {
+    return (intersection.position - center).normalize();
   }
 
   Color get_color(const Vector &position) const {
@@ -48,8 +48,8 @@ public:
     auto a = normal.dot(axes[0]);
     auto b = normal.dot(axes[1]);
     auto c = normal.dot(axes[2]);
-    auto x = acosf(c) / static_cast<float>(M_PI);
-    auto y = (1 + atan2f(a, b) / static_cast<float>(M_PI)) * .5f;
+    auto x = acosf(c) / numeric_pi;
+    auto y = (1 + atan2f(a, b) / numeric_pi) * .5f;
     return texture->get_color(x, y);
   }
 };
