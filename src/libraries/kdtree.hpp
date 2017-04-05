@@ -4,55 +4,62 @@
 
 class KDNode {
 public:
+  int axis;
   KDNode* child[2];
   std::vector<const Triangle*> objects;
   std::vector<Vector> corners;
-  int axis;
-  float plane;
+  float pivot;
 
-  KDNode() {
-    child[0] = child[1] = nullptr;
-    corners = {Vector(std::numeric_limits<float>::max(), std::numeric_limits<float>::max(), std::numeric_limits<float>::max()), Vector(std::numeric_limits<float>::min(), std::numeric_limits<float>::min(), std::numeric_limits<float>::min())};
+  KDNode(int axis, const std::vector<const Triangle*>& objects) {
+    this->axis = axis;
+    this->child[0] = nullptr;
+    this->child[1] = nullptr;
+    this->objects = objects;
+    this->corners = {
+      std::numeric_limits<float>::max() * Vector(1, 1, 1),
+      std::numeric_limits<float>::min() * Vector(1, 1, 1)
+    };
+    this->pivot = 0;
+    if (!objects.empty()) {
+      for (auto &object : objects) {
+        for (auto &vertex : object->points) {
+          pivot += vertex[axis] / (objects.size() * 3);
+          for (auto i = 0; i < 3; ++i) {
+            if (vertex[i] < corners[0][i]) {
+              corners[0][i] = vertex[i];
+            }
+            if (vertex[i] > corners[1][i]) {
+              corners[1][i] = vertex[i];
+            }
+          }
+        }
+      }
+    }
+  }
+
+  ~KDNode() {
+    delete child[0];
+    delete child[1];
   }
 };
 
 class KDTree {
 private:
-  KDNode *root;
+  KDNode* root;
 
-  KDNode* build(const std::vector<const Triangle*> &objects, int depth = 0) const {
-    KDNode* node = new KDNode();
-    for (auto &object : objects) {
-      for (auto &vertex : object->points) {
-        for (auto i = 0; i < 3; ++i) {
-          if (vertex[i] < node->corners[0][i]) {
-            node->corners[0][i] = vertex[i];
-          }
-          if (vertex[i] > node->corners[1][i]) {
-            node->corners[1][i] = vertex[i];
-          }
-        }
-      }
-    }
-    node->axis = depth % 3;
-    if (objects.size() >= 100 && depth < 10) {
-      float sum = 0;
-      for (auto &t : objects) {
-        for (int i = 0; i < 3; ++i) {
-          sum += t->points[i][node->axis];
-        }
-      }
-      node->plane = sum / (3 * objects.size());
+  KDNode* build(const std::vector<const Triangle*> &objects, int depth) const {
+    KDNode* node = new KDNode(depth % 3, objects);
+    if (objects.size() > 128 && depth < 8) {
       std::vector<const Triangle*> left, right;
       for (auto &object : objects) {
         for (auto i = 0; i < 3; ++i) {
-          if (object->points[i][node->axis] <= node->plane) {
+          if (object->points[i][node->axis] <= node->pivot) {
             left.emplace_back(object);
             break;
           }
         }
         for (auto i = 0; i < 3; ++i) {
-          if (object->points[i][node->axis] >= node->plane) {
+          if (object->points[i][node->axis] >= node->pivot) {
             right.emplace_back(object);
             break;
           }
@@ -62,14 +69,12 @@ private:
       if (common * 4 < objects.size()) {
         node->child[0] = build(left, depth + 1);
         node->child[1] = build(right, depth + 1);
-        return node;
       }
     }
-    node->objects = objects;
     return node;
   }
 
-  float intersect(const Ray &ray, KDNode *node, float opt_dist, int depth = 0) const {
+  float intersect(const Ray &ray, KDNode* node, float threshold, int depth) const {
     auto d = ray.direction, s = ray.source;
     auto p1 = node->corners[0], p2 = node->corners[1];
     float distances[] = {
@@ -80,7 +85,7 @@ private:
       d.z ? (p1.z - s.z) / d.z : 0,
       d.z ? (p2.z - s.z) / d.z : 0
     };
-    auto distance = std::numeric_limits<float>::max();
+    auto length = std::numeric_limits<float>::max();
     for (auto i = 0; i < 6; ++i) {
       if (distances[i] == 0) {
         continue;
@@ -95,22 +100,22 @@ private:
       if (p.z < p1.z - numeric_eps || p.z > p2.z + numeric_eps) {
         continue;
       }
-      if (distances[i] < distance) {
-        distance = distances[i];
+      if (distances[i] < length) {
+        length = distances[i];
       }
     }
-    auto point = s + distance * d;
-    if (distance >= opt_dist) {
-      return distance;
+    if (length >= threshold) {
+      return threshold;
     }
-    distance = opt_dist;
-    if (node->child[0] || node->child[1]) {
-      if (point[node->axis] <= node->plane) {
-        distance = std::min(distance, intersect(ray, node->child[0], distance));
-        distance = std::min(distance, intersect(ray, node->child[1], distance));
-      } else {
-        distance = std::min(distance, intersect(ray, node->child[1], distance));
-        distance = std::min(distance, intersect(ray, node->child[0], distance));
+    auto distance = threshold;
+    if (node->child[0] && node->child[1]) {
+      auto point = ray.source + distance * ray.direction;
+      auto prefer = point[node->axis] <= node->pivot ? 0 : 1;
+      for (auto i : {prefer, prefer ^ 1}) {
+        auto length = intersect(ray, node->child[i], distance, depth + 1);
+        if (length < distance) {
+          distance = length;
+        }
       }
     } else {
       for (auto &object : node->objects) {
@@ -125,7 +130,7 @@ private:
 
 public:
   KDTree(const std::vector<const Triangle*> &objects) {
-    root = build(objects);
+    root = build(objects, 0);
   }
 
   ~KDTree() {
@@ -133,6 +138,6 @@ public:
   }
 
   float intersect(const Ray &ray) const {
-    return intersect(ray, root, std::numeric_limits<float>::max());
+    return intersect(ray, root, std::numeric_limits<float>::max(), 0);
   }
 };

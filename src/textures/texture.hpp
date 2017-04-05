@@ -20,5 +20,7 @@ public:
     this->k_refractive_index = k_refractive_index;
   }
 
+  virtual ~Texture() {}
+
   virtual Color get_color(float x, float y) const = 0;
 };

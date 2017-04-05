@@ -77,6 +77,10 @@ public:
     tree = new KDTree(objects);
   }
 
+  ~PolygonMesh() {
+    delete tree;
+  }
+
   float intersect(const Ray &ray) const {
     return tree->intersect(ray);
   }

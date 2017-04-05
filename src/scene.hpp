@@ -29,7 +29,7 @@ private:
   std::vector<const Object*> objects;
   unsigned char* frame;
 
-  Color trace(const Ray &ray, float refractive_index = 1, int depth = 0) const {
+  Color trace(const Ray &ray, float refractive_index, int depth) const {
     if (depth > config.trace_depth) {
       return config.environment_color;
     }
@@ -117,6 +117,17 @@ public:
     this->frame = new unsigned char[camera->height * camera->width * 3];
   }
 
+  ~Scene() {
+    for (auto &light : lights) {
+      delete light;
+    }
+    for (auto &object : objects) {
+      delete object;
+    }
+    delete camera;
+    delete frame;
+  }
+
   void add(const Light* light) {
     lights.emplace_back(light);
   }
@@ -146,7 +157,7 @@ public:
       workers.emplace_back([&] {
         for (std::pair<int, int> item; queue.try_dequeue(item); ++count) {
           auto x = item.first, y = item.second;
-          auto color = trace(camera->ray(x, y));
+          auto color = trace(camera->ray(x, y), 1, 0);
           for (auto k = 0; k < 3; ++k) {
             auto offset = (y * camera->width + x) * 3;
             frame[k + offset] = static_cast<unsigned char>(clamp(color[k], 0, 1) * 255);

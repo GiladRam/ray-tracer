@@ -16,6 +16,10 @@ public:
     this->scale = scale;
   }
 
+  ~ImageTexture() {
+    delete image;
+  }
+
   Color get_color(float x, float y) const {
     auto a = static_cast<int>(round(scale * x) - height / 2);
     auto b = static_cast<int>(round(scale * y) - width / 2);

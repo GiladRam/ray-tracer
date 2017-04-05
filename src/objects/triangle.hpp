@@ -6,6 +6,7 @@
 class Triangle : public Object {
 friend class PolygonMesh;
 friend class KDTree;
+friend class KDNode;
 
 private:
   std::vector<Vector> points;

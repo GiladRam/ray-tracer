@@ -13,6 +13,8 @@ public:
     this->intensity = intensity;
   }
 
+  virtual ~Light() {}
+
   virtual float intersect(const Ray &ray) const = 0;
 
   struct IlluminateResult {
