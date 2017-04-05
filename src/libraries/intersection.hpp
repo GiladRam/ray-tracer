@@ -8,7 +8,7 @@ class Intersection {
 public:
   float distance;
   Vector position;
-  const Object* object;
+  const Object* face;
 
   static const Intersection MISS;
 

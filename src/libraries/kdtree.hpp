@@ -10,7 +10,7 @@ public:
   std::vector<Vector> corners;
   float pivot;
 
-  KDNode(int axis, const std::vector<const Triangle*>& objects) {
+  KDNode(int axis, const std::vector<const Triangle*> &objects) {
     this->axis = axis;
     this->child[0] = nullptr;
     this->child[1] = nullptr;
@@ -108,7 +108,7 @@ private:
       return Intersection::MISS;
     }
     if (node->child[0] && node->child[1]) {
-      auto point = ray.source + intersection.distance * ray.direction;
+      auto point = ray.source + ray.direction * intersection.distance;
       auto prefer = point[node->axis] <= node->pivot ? 0 : 1;
       for (auto i : {prefer, prefer ^ 1}) {
         auto result = intersect(ray, node->child[i], intersection, depth + 1);
@@ -121,7 +121,6 @@ private:
         auto result = object->intersect(ray);
         if (result < intersection) {
           intersection = result;
-          intersection.object = object;
         }
       }
     }

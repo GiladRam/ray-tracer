@@ -33,22 +33,21 @@ private:
     if (depth > config.trace_depth) {
       return config.environment_color;
     }
-    auto distance = std::numeric_limits<float>::max();
-    auto intersection = Intersection::MISS;
     const Object* object = nullptr;
-    const Light* light = nullptr;
+    auto intersection = Intersection::MISS;
     for (auto &o : objects) {
       auto result = o->intersect(ray);
-      if (result.distance < distance) {
-        distance = result.distance;
+      if (result < intersection) {
         intersection = result;
         object = o;
       }
     }
+    const Light* light = nullptr;
+    auto distance = intersection.distance;
     for (auto &l : lights) {
-      auto length = l->intersect(ray);
-      if (length < distance) {
-        distance = length;
+      auto result = l->intersect(ray);
+      if (result < distance) {
+        distance = result;
         light = l;
       }
     }

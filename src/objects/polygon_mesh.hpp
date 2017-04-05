@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <fstream>
+#include <unordered_map>
 #include "object.hpp"
 #include "triangle.hpp"
 #include "../libraries/kdtree.hpp"
@@ -56,7 +57,8 @@ public:
     for (auto &vertex : vertices) {
       vertex = (vertex - center) * scale + position;
     }
-    for (auto &face : faces) {
+    for (auto i = 0; i < faces.size(); ++i) {
+      auto face = faces[i];
       objects.emplace_back(new Triangle({vertices[face[0]], vertices[face[1]], vertices[face[2]]}, texture));
     }
     // mesh smoothing
@@ -89,7 +91,7 @@ public:
     auto index = 0;
     auto distance = std::numeric_limits<float>::max();
     for (auto i = 0; i < faces.size(); ++i) {
-      if (objects[i] == intersection.object) {
+      if (objects[i] == intersection.face) {
         index = i;
         break;
       }
