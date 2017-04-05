@@ -127,11 +127,16 @@ public:
   void render() {
     auto start = std::chrono::high_resolution_clock::now();
     std::cerr << "start rendering with " << config.thread_worker << " thread workers";
-    moodycamel::ConcurrentQueue<std::pair<int, int>> queue;
-    for (auto y = 0; y < camera->height; ++y) {
-      for (auto x = 0; x < camera->width; ++x) {
-        queue.enqueue(std::make_pair(x, y));
+    std::vector<std::pair<int, int>> pixels;
+    for (auto x = 0; x < camera->width; ++x) {
+      for (auto y = 0; y < camera->height; ++y) {
+        pixels.emplace_back(x, y);
       }
+    }
+    std::random_shuffle(pixels.begin(), pixels.end());
+    moodycamel::ConcurrentQueue<std::pair<int, int>> queue;
+    for (auto &pixel : pixels) {
+      queue.enqueue(pixel);
     }
     std::vector<std::thread> workers;
     std::atomic<int> count(0);

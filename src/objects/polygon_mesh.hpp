@@ -4,6 +4,7 @@
 #include <fstream>
 #include "object.hpp"
 #include "triangle.hpp"
+#include "../libraries/kdtree.hpp"
 
 class PolygonMesh : public Object {
 private:
@@ -11,6 +12,7 @@ private:
   std::vector<std::vector<int>> faces;
   std::vector<const Triangle*> objects;
   std::vector<Vector> corners;
+  KDTree* kdtree;
 
 public:
   PolygonMesh(const std::string &path, const Vector &position, float size, const Texture *texture) : Object(texture) {
@@ -74,9 +76,12 @@ public:
       }
     }
     corners = {(minimum - center) * scale + position, (maximum - center) * scale + position};
+    kdtree = new KDTree();
+    kdtree->build(objects);
   }
 
   float intersect(const Ray &ray) const {
+    return kdtree->find_nearest(ray);
     auto d = ray.direction, s = ray.source;
     auto p1 = corners[0], p2 = corners[1];
     float distances[] = {
