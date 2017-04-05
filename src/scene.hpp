@@ -160,11 +160,13 @@ public:
 
   void save(const std::string &path) const {
     std::ofstream ofs(path, std::ios::out | std::ios::binary);
-    ofs << "P6\n" << camera->width << " " << camera->height << "\n255\n";
+    ofs << "P3" << std::endl;
+    ofs << camera->width << " " << camera->height << std::endl;
+    ofs << "255" << std::endl;
     for (auto i = 0; i < camera->height * camera->width; ++i) {
-      ofs << static_cast<char>(clamp(frame[i].x, 0, 1) * 255)
-          << static_cast<char>(clamp(frame[i].y, 0, 1) * 255)
-          << static_cast<char>(clamp(frame[i].z, 0, 1) * 255);
+      ofs << static_cast<int>(clamp(frame[i].x, 0, 1) * 255) << " "
+          << static_cast<int>(clamp(frame[i].y, 0, 1) * 255) << " "
+          << static_cast<int>(clamp(frame[i].z, 0, 1) * 255) << std::endl;
     }
     ofs.close();
   }
