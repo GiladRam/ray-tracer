@@ -2,7 +2,7 @@
 
 ## Introduction
 
-`ray-tracer` is a multi-thread 3D rendering engine written in `C++`.
+`ray-tracer` is a photo-realistic 3D rendering engine written in `C++`.
 
 ## Features
 * multi-thread rendering
