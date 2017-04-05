@@ -10,6 +10,7 @@
 #include "libraries/color.hpp"
 #include "libraries/utility.hpp"
 #include "libraries/ray.hpp"
+#include "externals/stb_image_write.hpp"
 
 class Scene {
 public:
@@ -26,7 +27,7 @@ private:
   const Camera* camera;
   std::vector<const Light*> lights;
   std::vector<const Object*> objects;
-  Color* frame;
+  unsigned char* frame;
 
   Color trace(const Ray &ray, float refractive_index = 1, int depth = 0) const {
     if (depth > config.trace_depth) {
@@ -113,7 +114,7 @@ private:
 public:
   Scene(const Camera* camera) {
     this->camera = camera;
-    this->frame = new Color[camera->height * camera->width];
+    this->frame = new unsigned char[camera->height * camera->width * 3];
   }
 
   void add(const Light* light) {
@@ -145,7 +146,11 @@ public:
       workers.emplace_back([&] {
         for (std::pair<int, int> item; queue.try_dequeue(item); ++count) {
           auto x = item.first, y = item.second;
-          frame[y * camera->width + x] = trace(camera->ray(x, y));
+          auto color = trace(camera->ray(x, y));
+          for (auto k = 0; k < 3; ++k) {
+            auto offset = (y * camera->width + x) * 3;
+            frame[k + offset] = static_cast<unsigned char>(clamp(color[k], 0, 1) * 255);
+          }
         }
       });
     }
@@ -164,15 +169,6 @@ public:
   }
 
   void save(const std::string &path) const {
-    std::ofstream ofs(path, std::ios::out | std::ios::binary);
-    ofs << "P3" << std::endl;
-    ofs << camera->width << " " << camera->height << std::endl;
-    ofs << "255" << std::endl;
-    for (auto i = 0; i < camera->height * camera->width; ++i) {
-      ofs << static_cast<int>(clamp(frame[i].x, 0, 1) * 255) << " "
-          << static_cast<int>(clamp(frame[i].y, 0, 1) * 255) << " "
-          << static_cast<int>(clamp(frame[i].z, 0, 1) * 255) << std::endl;
-    }
-    ofs.close();
+    stbi_write_png(path.c_str(), camera->width, camera->height, 3, frame, camera->width * 3);
   }
 };
