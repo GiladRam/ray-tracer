@@ -11,8 +11,7 @@ private:
   std::vector<Vector> vertices, normals;
   std::vector<std::vector<int>> faces;
   std::vector<const Triangle*> objects;
-  std::vector<Vector> corners;
-  KDTree* kdtree;
+  KDTree* tree;
 
 public:
   PolygonMesh(const std::string &path, const Vector &position, float size, const Texture *texture) : Object(texture) {
@@ -75,53 +74,11 @@ public:
         normals[i] /= counts[i];
       }
     }
-    corners = {(minimum - center) * scale + position, (maximum - center) * scale + position};
-    kdtree = new KDTree();
-    kdtree->build(objects);
+    tree = new KDTree(objects);
   }
 
   float intersect(const Ray &ray) const {
-    return kdtree->find_nearest(ray);
-    auto d = ray.direction, s = ray.source;
-    auto p1 = corners[0], p2 = corners[1];
-    float distances[] = {
-      d.x ? (p1.x - s.x) / d.x : 0,
-      d.x ? (p2.x - s.x) / d.x : 0,
-      d.y ? (p1.y - s.y) / d.y : 0,
-      d.y ? (p2.y - s.y) / d.y : 0,
-      d.z ? (p1.z - s.z) / d.z : 0,
-      d.z ? (p2.z - s.z) / d.z : 0
-    };
-    auto distance = std::numeric_limits<float>::max();
-    for (auto i = 0; i < 6; ++i) {
-      if (distances[i] == 0) {
-        continue;
-      }
-      auto p = s + distances[i] * d;
-      if (p.x < p1.x - numeric_eps || p.x > p2.x + numeric_eps) {
-        continue;
-      }
-      if (p.y < p1.y - numeric_eps || p.y > p2.y + numeric_eps) {
-        continue;
-      }
-      if (p.z < p1.z - numeric_eps || p.z > p2.z + numeric_eps) {
-        continue;
-      }
-      if (distances[i] < distance) {
-        distance = distances[i];
-      }
-    }
-    if (distance == std::numeric_limits<float>::max()) {
-      return distance;
-    }
-    distance = std::numeric_limits<float>::max();
-    for (auto &object : objects) {
-      auto length = object->intersect(ray);
-      if (length < distance) {
-        distance = length;
-      }
-    }
-    return distance;
+    return tree->intersect(ray);
   }
 
   Vector get_normal(const Vector &position, const Ray &ray) const {
