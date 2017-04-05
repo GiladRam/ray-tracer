@@ -6,6 +6,7 @@
 
 ## Features
 * multi-thread rendering
+* accelerate using [k-dimensional tree](https://en.wikipedia.org/wiki/K-d_tree)
 * read scene setting from a simple `.json` file
 * [Phong reflection model](http://en.wikipedia.org/wiki/Phong_reflection_model) and [Monte Carlo path tracing model](http://en.wikipedia.org/wiki/Path_tracing)
 * rendering of plane, sphere and polygon mesh
