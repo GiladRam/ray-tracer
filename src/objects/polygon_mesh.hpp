@@ -57,8 +57,7 @@ public:
     for (auto &vertex : vertices) {
       vertex = (vertex - center) * scale + position;
     }
-    for (auto i = 0; i < faces.size(); ++i) {
-      auto face = faces[i];
+    for (auto &face : faces) {
       objects.emplace_back(new Triangle({vertices[face[0]], vertices[face[1]], vertices[face[2]]}, texture));
     }
     // mesh smoothing
@@ -90,7 +89,7 @@ public:
   Vector get_normal(const Ray &ray, const Intersection &intersection) const {
     auto index = 0;
     auto distance = std::numeric_limits<float>::max();
-    for (auto i = 0; i < faces.size(); ++i) {
+    for (auto i = 0; i < objects.size(); ++i) {
       if (objects[i] == intersection.face) {
         index = i;
         break;
