@@ -6,9 +6,8 @@
 
 ## Features
 * multi-thread rendering
-* accelerate using [k-dimensional tree](https://en.wikipedia.org/wiki/K-d_tree)
+* acceleration with [k-dimensional tree](https://en.wikipedia.org/wiki/K-d_tree)
 * read scene setting from a simple `.json` file
-* [Phong reflection model](http://en.wikipedia.org/wiki/Phong_reflection_model) and [Monte Carlo path tracing model](http://en.wikipedia.org/wiki/Path_tracing)
 * rendering of plane, sphere and polygon mesh
 * read polygon mesh from a simple `.obj` file
 * soft shadow (area lights)
@@ -17,9 +16,10 @@
 
 ## Usage
 
-### Dependencies
-* `gcc >= 4.8`
-* `cmake >= 3.5`
+### Requirements
+* `Unix / Linux`
+* `GCC / G++ 4.8+`
+* `CMake 3.5+`
 
 ### Compile
 ```
@@ -37,7 +37,6 @@ For example, in order to render `texture.json`, you may use the following instru
 ```
 ./ray-tracer ../scenes/texture.json ../images/texture.png
 ```
-
 
 ## Examples
 
@@ -60,6 +59,7 @@ For example, in order to render `texture.json`, you may use the following instru
 ## References
 * [Scratchapixel -- Learn Computer Graphics from Scratch](https://www.scratchapixel.com)
 * [Flipcode -- Raytracing Topics and Techniques](http://www.flipcode.com/archives/Raytracing_Topics_Techniques-Part_1_Introduction.shtml)
+* [Yuxin Wu's Repository -- Ray Tracing Engine](https://github.com/ppwwyyxx/Ray-Tracing-Engine)
 
 ## Acknowledgements
 This project is built with [`json`](https://github.com/nlohmann/json), [`stb`](https://github.com/nothings/stb) and [`concurrentqueue`](https://github.com/cameron314/concurrentqueue). A big thank you to these folks.
