@@ -107,7 +107,7 @@ public:
     auto det = vectorP.dot(object->points[1] - object->points[0]);
     auto u = vectorT.dot(vectorP) / det;
     auto v = ray.direction.dot(vectorQ) / det;
-    return (1 - u - v) * normals[face[0]] + u * normals[face[1]] + v * normals[face[2]];
+    return ((1 - u - v) * normals[face[0]] + u * normals[face[1]] + v * normals[face[2]]).normalize();
   }
 
   Color get_color(const Vector &position) const {
