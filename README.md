@@ -6,7 +6,7 @@
 
 ## Features
 * multi-thread rendering
-* acceleration with [k-dimensional tree](https://en.wikipedia.org/wiki/K-d_tree)
+* accelerate using k-d tree
 * read scene setting from a simple `.json` file
 * rendering of plane, sphere and polygon mesh
 * read polygon mesh from a simple `.obj` file
