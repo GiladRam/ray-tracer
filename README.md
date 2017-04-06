@@ -6,14 +6,16 @@
 
 ## Features
 * Multi-thread rendering
-* Acceleration using k-dimensional tree
+* Accelerate using k-dimensional tree
 * Read scene setting from `.json` files
-mesh
 * Read polygon mesh from `.obj` files
-* Soft shadow (area lights)
-* Procedural and custom texture
 * Mesh smoothing
 
+## Effects
+* Transparent and reflective objects
+* Procedural and custom texture
+* Soft shadow (area lights)
+* Color bleeding
 
 ## Structure
 ```
@@ -38,13 +40,13 @@ src/              # source code
 * `GCC / G++ 4.8+`
 * `CMake 3.5+`
 
-### Compile
+### Compilation
 ```
 mkdir bin/ && cd bin/
 cmake .. && make all
 ```
 
-### Render
+### Rendering
 ```
 ./ray-tracer <input-scene-path> <output-image-path>
 ```
