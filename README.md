@@ -32,6 +32,13 @@ cmake .. && make all
 ./ray-tracer <input-scene-path> <output-image-path>
 ```
 
+For example, in order to render `texture.json`, you may use the following instruction:
+
+```
+./ray-tracer ../scenes/texture.json ../images/texture.png
+```
+
+
 ## Examples
 
 ### Polygon Mesh
@@ -50,5 +57,10 @@ cmake .. && make all
 ![](https://raw.githubusercontent.com/zhijian-liu/ray-tracer/master/images/sphere-bleeding.png?token=AFg7pfCouP7DkGDPfERG-Sk7LgATaI0Gks5Y7deLwA%3D%3D)
 ![](https://raw.githubusercontent.com/zhijian-liu/ray-tracer/master/images/plane-bleeding.png?token=AFg7pT20KmuMc_LIJeiAvNxdEQy-AZ61ks5Y7deMwA%3D%3D)
 
+## References
+* [Scratchapixel -- Learn Computer Graphics from Scratch](https://www.scratchapixel.com)
+* [Flipcode -- Raytracing Topics and Techniques](http://www.flipcode.com/archives/Raytracing_Topics_Techniques-Part_1_Introduction.shtml)
+
 ## Acknowledgements
+This project is built with [`json`](https://github.com/nlohmann/json), [`stb`](https://github.com/nothings/stb) and [`concurrentqueue`](https://github.com/cameron314/concurrentqueue). A big thank you to these folks.
 
