@@ -5,14 +5,31 @@
 `ray-tracer` is a photo-realistic 3D rendering engine written in `C++`.
 
 ## Features
-* multi-thread rendering
-* accelerate using k-d tree
-* read scene setting from a simple `.json` file
-* rendering of plane, sphere and polygon mesh
-* read polygon mesh from a simple `.obj` file
-* soft shadow (area lights)
-* procedural and custom texture
-* mesh smoothing
+* Multi-thread rendering
+* Acceleration using k-dimensional tree
+* Read scene setting from `.json` files
+mesh
+* Read polygon mesh from `.obj` files
+* Soft shadow (area lights)
+* Procedural and custom texture
+* Mesh smoothing
+
+
+## Structure
+```
+scenes/           # scene setting files (json files)
+images/           # rendering results (png files)
+resources/        # 3D models and textures (obj and jpeg files)
+src/              # source code
+| externals/      # external libraries
+| libraries/      # libraries (vector, color, ray and k-d tree)
+| objects/        # renderable objects (plane, sphere, triangle and polygon mesh)
+| lights/         # renderable lights (point light, distant light and area light)
+| textures/       # renderable textures (homo texture, grid texture and image texture)
+| camera.hpp      # camera ray
+| scene.hpp       # rendering engine
+| main.cpp        # entrance
+```
 
 ## Usage
 
