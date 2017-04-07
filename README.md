@@ -35,7 +35,7 @@ src/              # source code
 | main.cpp        # entrance
 ```
 
-## Usage
+## Usages
 
 ### Requirements
 * `Unix / Linux`
@@ -44,8 +44,8 @@ src/              # source code
 
 ### Compilation
 ```
-mkdir bin/ && cd bin/
-cmake .. && make all
+mkdir -p build/ && cd build/
+cmake ../ && make all
 ```
 
 ### Rendering
