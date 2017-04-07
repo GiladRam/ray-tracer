@@ -59,6 +59,8 @@ For example, in order to render `texture.json`, you may use the following instru
 ./ray-tracer ../scenes/texture.json ../images/texture.png
 ```
 
+You may also create new scene settings (you may refer to `scenes/mesh.json` and `scenes/texture.json` for more details)
+
 ## Examples
 
 ### Polygon Mesh
