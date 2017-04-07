@@ -9,12 +9,14 @@
 * Accelerate using k-dimensional tree
 * Read scene setting from `.json` files
 * Read polygon mesh from `.obj` files
+* Save rendered image to `.png` files
 * Mesh smoothing
 
 ## Effects
-* Transparent and reflective objects
+* Transparent and reflective object
 * Procedural and custom texture
 * Soft shadow (area lights)
+* Diffusive reflection
 * Color bleeding
 
 ## Structure
