@@ -79,6 +79,9 @@ You may also create new scene settings (you may refer to `scenes/mesh.json` and 
 ![](https://raw.githubusercontent.com/zhijian-liu/ray-tracer/master/images/sphere-bleeding.png?token=AFg7pfCouP7DkGDPfERG-Sk7LgATaI0Gks5Y7deLwA%3D%3D)
 ![](https://raw.githubusercontent.com/zhijian-liu/ray-tracer/master/images/plane-bleeding.png?token=AFg7pT20KmuMc_LIJeiAvNxdEQy-AZ61ks5Y7deMwA%3D%3D)
 
+## License
+`ray-tracer` is released under the [open-source MIT license](https://github.com/zhijian-liu/ray-tracer/blob/master/LICENSE).
+
 ## References
 * [Scratchapixel -- Learn Computer Graphics from Scratch](https://www.scratchapixel.com)
 * [Flipcode -- Raytracing Topics and Techniques](http://www.flipcode.com/archives/Raytracing_Topics_Techniques-Part_1_Introduction.shtml)
