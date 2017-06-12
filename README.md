@@ -42,19 +42,19 @@ src/              # source code
 * `CMake 3.5+`
 
 ### Compilation
-```
+```shell
 mkdir -p build/ && cd build/
 cmake ../ && make all
 ```
 
 ### Rendering
-```
+```shell
 ./ray-tracer <input-scene-path> <output-image-path>
 ```
 
 For example, in order to render `texture.json`, you may use the following instruction:
 
-```
+```shell
 ./ray-tracer ../scenes/texture.json ../images/texture.png
 ```
 
