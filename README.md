@@ -1,7 +1,7 @@
 # `ray-tracer`
 
 ## Introduction
-`ray-tracer` is a photo-realistic 3D rendering engine written in `C++`.
+This project is a photo-realistic 3D rendering engine written in `C++`.
 
 ## Features
 * Multi-thread rendering
@@ -79,7 +79,7 @@ In order to create new scene settings, you may refer to `scenes/mesh.json` and `
 ![](https://raw.githubusercontent.com/zhijian-liu/ray-tracer/master/images/plane-bleeding.png?token=AFg7pT20KmuMc_LIJeiAvNxdEQy-AZ61ks5Y7deMwA%3D%3D)
 
 ## License
-`ray-tracer` is released under the [open-source MIT license](https://github.com/zhijian-liu/ray-tracer/blob/master/LICENSE).
+This project is released under the [open-source MIT license](https://github.com/zhijian-liu/ray-tracer/blob/master/LICENSE).
 
 ## References
 * [Scratchapixel -- Learn Computer Graphics from Scratch](https://www.scratchapixel.com)
