@@ -75,7 +75,7 @@ In order to create new scene settings, you may refer to `scenes/mesh.json` and `
 ![](https://raw.githubusercontent.com/zhijian-liu/ray-tracer/master/images/refraction.png?token=AFg7pfgtsNps7IKnm01yuNhUW6A1SxsVks5Y7deKwA%3D%3D)
 
 ### Color Bleeding
-![](https://raw.githubusercontent.com/zhijian-liu/ray-tracer/master/images/sphere-bleeding.png?token=AFg7pfCouP7DkGDPfERG-Sk7LgATaI0Gks5Y7deLwA%3D%3D)
+![](https://raw.githubusercontent.com/zhijian-liu/ray-tracer/master/images/bleeding.png?token=AFg7pfCouP7DkGDPfERG-Sk7LgATaI0Gks5Y7deLwA%3D%3D)
 
 ## License
 This project is released under the [open-source MIT license](https://github.com/zhijian-liu/ray-tracer/blob/master/LICENSE).
